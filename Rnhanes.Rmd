@@ -10,11 +10,17 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+## Abstract
+
 
 ## NHANES
 
- Description of NHANES and note its widespread use.
-The cycles, how they work, some gotchas - maybe the P_ tables; the fact that age seems to have had its max value changed from 70 to 80 - if so when?
+ **Description of NHANES and note its widespread use.**
+
+NHANES (National Health and Nutrition Examination Survey) is a pivotal program of studies aimed at evaluating the health and nutritional well-being of both adults and children residing in the United States. Its distinctive feature lies in its comprehensive approach, which combines detailed interviews and thorough physical examinations. NHANES is administered by the National Center for Health Statistics (NCHS), an integral part of the Centers for Disease Control and Prevention (CDC), which holds the responsibility for generating crucial health and vital statistics for the entire nation.
+ 
+ 
+**The cycles, how they work, some gotchas - maybe the P_ tables; the fact that age seems to have had its max value changed from 70 to 80 - if so when?**
 
 ```{r loadlibs}
 library(nhanesA)
