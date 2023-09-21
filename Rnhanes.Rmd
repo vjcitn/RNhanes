@@ -1,0 +1,21 @@
+---
+title: "Achieving Transparency and Reproducibility in NHANES Research using R"
+author: ''
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## NHANES
+
+ Description of NHANES and note its widespread use.
+The cycles, how they work, some gotchas - maybe the P_ tables; the fact that age seems to have had its max value changed from 70 to 80 - if so when?
+
+```{r loadlibs}
+library(nhanesA)
+```
