@@ -12,16 +12,66 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 ## Abstract
 
+NHANES (National Health and Nutrition Examination Survey) covers a very broad array of topics including demography, sociology, health, and nutrition. It has been carried out in two year cycles starting in 1999 and the bulk of the data are public and available to any researcher.  This has made them invaluable in very many areas of research. In this paper we describe methods to aid researchers in developing reproducible research in ways that will allow for sharing and extending previous efforts. We believe that community efforts to enhance reproducibility and sharing of analytic methods will greatly benefit the scientific community and will explain how adopting a few common strategies would be of widespread benefit.
 
-## NHANES
-
- **Description of NHANES and note its widespread use.**
+## Introduction
 
 NHANES (National Health and Nutrition Examination Survey) is a pivotal program of studies aimed at evaluating the health and nutritional well-being of both adults and children residing in the United States. Its distinctive feature lies in its comprehensive approach, which combines detailed interviews and thorough physical examinations. NHANES is administered by the National Center for Health Statistics (NCHS), an integral part of the Centers for Disease Control and Prevention (CDC), which holds the responsibility for generating crucial health and vital statistics for the entire nation.
  
+ Since 1999, the NHANES survey has been conducted continuously, and the surveys during that period are referred to as "continuous NHANES" to distinguish from several prior surveys. Continuous NHANES surveys are grouped in two-year *cycles*, with the first cycle carried out in 1999-2000.  For the most part the data are public and are very widely used for a variety of different analysis.  In fact, searching PubMed for the published papers that cite NHANES shows that currently more than 5,000 papers per year make some use of the data. The data are available for download from the CDC website, https://www.cdc.gov/nchs/nhanes.htm. Detailed instructions on using the data, how to download it and interpret it are given.
  
+However, we have found that replication of published papers remains a challenging endeavor. In our experience even when authors have the best of intentions it is very difficult to replicate the tables and graphs in their papers. This is due to a variety of challenges mainly due to a lack of specifity in reporting the extent and manner of data cleaning, the specification of entry criteria or of case and control definitions, and whether and if any transformation or filtering of data points was carried out.
+
+[We may need a box that describes Markdown documents, Source/Version control systems]
+
+These issues can be ameliorated by using a number of tools that can be adapted to help with reproducibility.  An important development was the concept of *markdown* documents which are documents that integrate software (code) and text. These can be thought of as explicit descriptions of how the figures and the tables in the published paper were created. Markdown documents are processed by different *engines* that transform them into specific outputs such as a PDF format for publication or a HTML output for putting on the web. [Maybe cite the epidemiologists handbook here?]
+
+A second important tool to help with reproducibility is the use of version control systems. These were originally developed for software development but they work equally well for writing papers.  A very widely used tool for version control is GitHub (cite github) and there are many software packages and documents that maintained in 
+
+One popular example of using this approach is the Epidemiologist R Handbook (https://epirhandbook.com/en/) which is written in Bookdown (cite bookdown) and is maintained in GitHub (at https://github.com/appliedepi/epiRhandbook_eng). The authors have created an entire textbook using markdown and they use GitHub to handle version issues as well as bug reporting and fixing. This approach has been used widely in the R community for over 20 years now with substantial success. It should come as no surprise to the reader that this paper is also written in markdown and uses GitHub as its source code repository (https://github.com/ainilaha/RNhanes).
+
+
+## Our Proposed Paper writing process
+
+First create a new GitHub repository for the project.
+
+Roughly speaking the procedures used to write a paper based on NHANES data are as follows:
+1. Identify the variables of interest and the questionnaire files they are in, 
+2. The cycles (years) of data that will be used, 
+3. Download the data to a local computer for analysis 
+
+We suggest that the code used to download the data and the data themselves (if they are not too large) should be put into the repository so that they can be viewed later and so that anyone wanting to replicate the study would be be able to do so.
+
+Next the data are 
+
+## Data
+ 
+The 'nhanesA' package was developed to enable fully customizable retrieval of data NHANES. 
+For each cycle of NHANES tables of data within the five publicly available data categories: Demographics, Dietary, Examination, Laboratory and Questionnaire, are produced. There is also limited access data, but that is not publicly available and in order to use a special request must be made.
+
+The available data can be downloaded using https requests from the CDC website. For each table there are two parts, the raw data which is provided in SAS 'XPT' format. There is an additional documentation file that describes the data and explains how it is formatted. While many users work off of the raw data that can be problematic due to the way that categorical variables are encoded.  In these files variables like 'sex' or 'ethnicity' are encoded as integer variables and the user needs to translate these into the appropriate character values.  The 'nhanesA' package provides a function called 'nhanesTranslate' that takes a table name as input and will return the table with all columns translated. We strongly recommend that any analysis be based on translated tables. 
+
+[Laha can you put in some screen shots for DEMO_J or some other file where you show the raw data, the html page describing the format etc.  Maybe sex and ethnicity and describe the raw and translated data]
+
+Each cycle is based on a different sample of the US population. Within a cycle there are some surveys or assays that are only carried out on a subset of the selected participants while for others everyone is asked.  Respondents do not always answer all questions, and as noted above they are not necesarrily included in all of the assays, exams or questionnaires. As a result there can be substantial amounts of missing data and the analyst will need to develop methods for dealing with missingness.
+
+Some questionnaires are reused across cycles. For example the main demography questionnaire is present in all cycles. The CDC uses some naming conventions, but these are not always consistently applied and it is important to be cautious when merging or combining data across questionnaires or cycles.  For example, in the first cycle the demography questionnaire is named 'DEMO', in the second it is named 'DEMO_B' and the suffix
+has been incremented on each cycle up to the present time. However the names of the variables are not guaranteed to be constant, and the actual questions asked may also change over time.  Analysts must be careful when working with these tables.
+
+During the 2019-2020 cycle data collection was disrupted by the pandemic. Therefore, the partial 2019-2020 data (herein 2019-March 2020 data) were combined with the full data set from the previous cycle (2017-2018) to create nationally representative 2017-March 2020 pre-pandemic data files.  These data files have the same basic file name, e.g. 'DEMO', but they are named by prepending a 'P_' to that, giving 'P_DEMO'. These files require special handling and the CDC has provided substantial guidance as well as updating the survey weights etc.
+
+
+
+Going forward the CDC plans to revamp the entire survey in the 2023-2024 cycle.
+And to miThe processes used by the CDC are documented in this paper (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8667826/)
+
 **The cycles, how they work, some gotchas - maybe the P_ tables; the fact that age seems to have had its max value changed from 70 to 80 - if so when?**
 
 ```{r loadlibs}
 library(nhanesA)
 ```
+
+
+## Appendix
+
+### Markdown - brief explanation, example and references needed here.
