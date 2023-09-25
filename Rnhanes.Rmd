@@ -63,8 +63,6 @@ For each cycle of NHANES tables of data within the five publicly available data 
 
 The available data can be downloaded using https requests from the CDC website. For each table there are two parts, the raw data which is provided in SAS (Statistical Analysis Software) 'XPT' (Transport File Format) format. There is an additional documentation file that describes the data and explains how it is formatted. While many users work off of the raw data that can be problematic due to the way that categorical variables are encoded.  In these files variables like 'sex' or 'ethnicity' are encoded as integer variables and the user needs to translate these into the appropriate character values.  The 'nhanesA' package provides a function called 'nhanesTranslate' that takes a table name as input and will return the table with all columns translated. We strongly recommend that any analysis be based on translated tables. 
 
-[Laha can you put in some screen shots for DEMO_J or some other file where you show the raw data, the html page describing the format etc.  Maybe sex and ethnicity and describe the raw and translated data]
-
 \begin{figure}
   \includegraphics{images/gender.png}
   \includegraphics{images/enthnics.jpg}
@@ -77,10 +75,7 @@ Each cycle is based on a different sample of the US population. Within a cycle t
 
 Some questionnaires are reused across cycles. For example the main demography questionnaire is present in all cycles. The CDC uses some naming conventions, but these are not always consistently applied and it is important to be cautious when merging or combining data across questionnaires or cycles.  For example, in the first cycle the demography questionnaire is named 'DEMO', in the second it is named 'DEMO_B' and the suffix has been incremented on each cycle up to the present time. However the names of the variables are not guaranteed to be constant, and the actual questions asked may also change over time. Analysts must be careful when working with these tables.
 
-During the 2019-2020 cycle data collection was disrupted by the pandemic. Therefore, the partial 2019-2020 data (herein 2019-March 2020 data) were combined with the full data set from the previous cycle (2017-2018) to create nationally representative 2017-March 2020 pre-pandemic data files.  These data files have the same basic file name, e.g. 'DEMO', but they are named by prepending a 'P_' to that, giving 'P_DEMO'. These files require special handling and the CDC has provided substantial guidance as well as updating the survey weights etc.
-
-Going forward the CDC plans to revamp the entire survey in the 2023-2024 cycle.
-And to miThe processes used by the CDC are documented in @Ram2021.
+During the 2019-2020 cycle data collection was disrupted by the pandemic. Therefore, the partial 2019-2020 data (herein 2019-March 2020 data) were combined with the full data set from the previous cycle (2017-2018) to create nationally representative 2017-March 2020 pre-pandemic data files.  These data files have the same basic file name, e.g. 'DEMO', but they are named by prepending a 'P_' to that, giving 'P_DEMO'. These files require special handling and the CDC has provided substantial guidance as well as updating the survey weights etc. Going forward the CDC plans to revamp the entire survey in the 2023-2024 cycle as documented in @Ram2021.
 
 The survey questions are delivered sequentially and there is some amount of structure that will need to be dealt with. In the Blood Pressure and Cholestorol questionnaire for 2005-2006 we show and excerpt of the Data Documentation file in Figure. \ref{fig:BPQ_020}. You can see that in question BPQ_020 that anyone who answered either 'No' or 'Don't know' to the question skipped over question BPQ_030, as it makes little sense for them.  Importantly the value stored in the database for those people for that question was a missing value. Now, in some circumstances an analyst might prefer to assume that if the respondent and not been told that they had high blood pressure once, the also had not been told they had high blood pressure two or more times.   There are many instances in the NHANES data where questions are skipped as part of the survey delivery and it is important that the analyst try to detect those and make reasonable assumptions for the analysis. 
 
@@ -98,7 +93,7 @@ In the NHANES dataset, data coarsening is frequently observed. For instance, the
 
 ```{r loadlibs}
 # library(nhanesA)
-# domo = nhanes("DEMO_J")
+# demo = nhanes("DEMO_J")
 ```
 
 ## Other Approaches
@@ -118,6 +113,12 @@ RNHANES provides an easy way to download and analyze data from NHANES with a foc
  https://blog.uvm.edu/tbplante/2018/03/02/downloading-and-analyzing-nhanes-datasets-with-stata-in-a-single-do-file/
   describes how to download and analyze; they have an example of how to merge, translating values seems to be done in a one at a time manual way.
   - they seem unaware of the bpq.020 issues - which we should make sure we mention
+
+### Python
+ https://dept.stat.lsa.umich.edu/~kshedden/Python-Workshop/nhanes_data.html
+ There is also a package on PyPi - https://pypi.org/project/nhanes/ but it has seen no development since July of 2020
+  - none of these seem to address the translation or survey methods requirements of analysing NHANES data.
+   You can of course use python to download and then use R connections for the analysis.
 
 
 ## Appendix
