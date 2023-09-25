@@ -1,5 +1,5 @@
 ---
-title: "Achieving Transparency and Reproducibility in NHANES Research using R"
+title: "nhanesA: Achieving Transparency and Reproducibility in NHANES Research"
 author: ''
 bibliography: references.bib  
 # biblio-style: "apalike"
@@ -21,35 +21,37 @@ NHANES (National Health and Nutrition Examination Survey) covers a very broad ar
 
 ## Introduction
 
-NHANES (National Health and Nutrition Examination Survey) is a pivotal program of studies aimed at evaluating the health and nutritional well-being of both adults and children residing in the United States. Its distinctive feature lies in its comprehensive approach, which combines detailed interviews and thorough physical examinations. NHANES is administered by the National Center for Health Statistics (NCHS), an integral part of the Centers for Disease Control and Prevention (CDC), which holds the responsibility for generating crucial health and vital statistics for the entire nation.
+NHANES is a pivotal program of studies aimed at evaluating the health and nutritional well-being of both adults and children residing in the United States. Its distinctive feature lies in its comprehensive approach, which combines detailed interviews and thorough physical examinations. NHANES is administered by the National Center for Health Statistics (NCHS), an integral part of the Centers for Disease Control and Prevention (CDC), which holds the responsibility for generating crucial health and vital statistics for the entire nation.
  
- Since 1999, the NHANES survey has been conducted continuously, and the surveys during that period are referred to as "continuous NHANES" to distinguish from several prior surveys. Continuous NHANES surveys are grouped in two-year *cycles*, with the first cycle carried out in 1999-2000.  For the most part the data are public and are very widely used for a variety of different analysis.  In fact, searching PubMed for the published papers that cite NHANES shows that currently more than 5,000 papers per year make some use of the data. The data are available for download from the CDC website, https://www.cdc.gov/nchs/nhanes.htm. Detailed instructions on using the data, how to download it and interpret it are given.
+Since 1999, the NHANES survey has been conducted continuously, and the surveys during that period are referred to as "continuous NHANES" to distinguish from several prior surveys. Continuous NHANES surveys are grouped in two-year *cycles*, with the first cycle carried out in 1999-2000.  For the most part the data are public and are very widely used for a variety of different analysis.  In fact, searching PubMed for the published papers that cite NHANES shows that currently more than 5,000 papers per year make some use of this resource. The bulk of the NHANES data are available for download from the CDC website, https://www.cdc.gov/nchs/nhanes.htm. Detailed instructions on using the data, how to download it and interpret it are given.
  
-However, we have found that replication of published papers remains a challenging endeavor. In our experience even when authors have the best of intentions it is very difficult to replicate the tables and graphs in their papers. This is due to a variety of challenges mainly due to a lack of specifity in reporting the extent and manner of data cleaning, the specification of entry criteria or of case and control definitions, and whether and if any transformation or filtering of data points was carried out.
+However, we have found that replication of published papers remains a challenging endeavor. In our experience even when authors have the best of intentions it is very difficult to replicate the tables and graphs in their papers. This is due to a variety of challenges that largely relate to a lack of specificity in reporting the extent and manner of data cleaning, the details of entry criteria or of case and control definitions, and whether, and if, any transformation or filtering of data points was carried out. While these processes are sometimes challenging to describe in prose they can be succinctly and accurately described in software.
 
 [We may need a box that describes Markdown documents, Source/Version control systems]
 
-These issues can be ameliorated by using a number of tools that can be adapted to help with reproducibility.  An important development was the concept of *markdown* \cite{Xie2018,Allaire2023}  documents which are documents that integrate software (code) and text. These can be thought of as explicit descriptions of how the figures and the tables in the published paper were created. Markdown documents are processed by different *engines* that transform them into specific outputs such as a PDF format for publication or a HTML output for putting on the web. [Maybe cite the epidemiologists handbook here?]
+The reproducibility of a paper, or result, can be enhanced by using a number of tools and processes that are commonly used for software development.  An important development was the concept of *markdown* [FIXME: probably better to follow https://en.wikipedia.org/wiki/Markdown for the history of markdown - you have Rmarkdown.
+Also please put a link to the Rmarkdown cheatsheet in the appendix.]
+\cite{Xie2018,Allaire2023}  documents which are documents that integrate software (code) and text. These can be thought of as explicit descriptions of how the figures and the tables in the published paper were created. Rmarkdown documents are processed by different *engines* that transform them into specific outputs such as a PDF format for publication or a HTML output for putting on the web. 
 
 A second important tool to help with reproducibility is the use of version control systems. These were originally developed for software development but they work equally well for writing papers.  A very widely used tool for version control is GitHub (https://github.com/) and there are many software packages and documents that maintained in 
 
-One popular example of using this approach is the Epidemiologist R (@Ihaka1996) Handbook (https://epirhandbook.com/en/) which is written in Bookdown (@Xie2020) and is maintained in GitHub (at https://github.com/appliedepi/epiRhandbook_eng). The authors have created an entire textbook using markdown and they use GitHub to handle version issues as well as bug reporting and fixing. This approach has been used widely in the R community for over 20 years now with substantial success. It should come as no surprise to the reader that this paper is also written in markdown and uses GitHub as its source code repository (https://github.com/ainilaha/RNhanes).
+One popular example of using this approach based on R (@Ihaka1996) is the Epidemiologist R Handbook (https://epirhandbook.com/en/) which is written in Bookdown (@Xie2020) and is maintained in GitHub (at https://github.com/appliedepi/epiRhandbook_eng). The authors have created an entire textbook using markdown and they use GitHub to handle version issues as well as bug reporting and fixing. This approach has been used widely in the R community for over 20 years now with substantial success. It should come as no surprise to the reader that this paper is also written in markdown and uses GitHub as its source code repository (https://github.com/ainilaha/RNhanes).
 
 
-## Our Proposed Paper writing process
+## Our Proposed NHANES Paper writing process
 
-First create a new GitHub repository for the project.
+Here we sketch out an outline for writing a paper using the tools we mention in order to create a reproducible paper. By reproducible we really mean that once we have agreed on the data to use, that all of the tables, graphs and other data analyses can be reproduced exactly.  Now this is not the concept of scientific reproducibility where one expects to find a similare result when the basic experiment is repeated on a similar but not identical populations, but it is an important goal in and of itself. 
 
-Roughly speaking the procedures used to write a paper based on NHANES data are as follows:
+One would first create a new GitHub repository \cite(@GitHub) for the project.
+Then, identify the variables of interest and the questionnaire files they are in as well as the cycles (years) of data that will be used.  Create an Rmarkdown document and in that use the 'nhanesA' package to download the relevant data.  Check that document in to the GitHub repository so that all updates and modifications are noted and so that anyone can check out the document.
 
-1.Identify the variables of interest and the questionnaire files they are in 
+At this point you will start to write code chunks in the document to first transform and filter the data according to the entry criteria for your study.  For example, you might want to look at blood pressure on adults over 40. On examing the 'BXP' tables you find that two different blood pressure measurements (systolic and diastolic) were recored at two different time points.  You have to decide how to process those data.  Do you take only one, or do you average both? What about people that have only one measurement? Do you keep them or remove them?  All of these decisions will impact the analysis and the actual values you report in your paper.  By including the code to do this processing in your markdown document and reader can check the code for the actual steps you took.
 
-2.The cycles (years) of data that will be used, 
+Then as your research progresses you will manipulate the data to compute different summary statistics, perhaps mean diastolic blood pressure by reported ethnicity.  Again the specific details of how you did that will be maintained in the markdown document.  Ultimately you will have finished your analysis and then arrange the outputs, using the tools available for processing Rmarkdown to produce the final paper for publication.
+Then you can submit it. And make sure you commit everything you need (images, tables, text etc) to your GitHub repository.
 
-3.Download the data to a local computer for analysis 
-
-We suggest that the code used to download the data and the data themselves (if they are not too large) should be put into the repository so that they can be viewed later and so that anyone wanting to replicate the study would be be able to do so.
-
+Once the reviews come back you will update and modify that code and text to reflect the changes that have been asked for. And again you will check in all the files and changes. Once your paper is published you can refer interested parties to your GitHub repository where they can download the markdown documents and rerun them. Perhaps they will make changes to your assumptions to see whether the results change. 
+ 
 ## Survey Design
 
 An important goal of NHANES is to produce national estimates of a wide variety of health, nutrition and other variables that are representative of the total noninstitutionalized civilian U.S. population. NHANES uses a complex, four-stage sample design. NHANES sample weights are provided as part of the data that can be downloaded and there is extensive documentation provided on the CDC website describing the proper use of these weights. It is important to realize that for a variety of reasons there are different strategies that have been used over time due to improvements in methodology, external factors such as the COVID epidemic, and recently due to a desire to migrate the project to a more longitudinal view. 
@@ -66,7 +68,7 @@ The available data can be downloaded using https requests from the CDC website. 
 \begin{figure}
   \includegraphics{images/gender.png}
   \includegraphics{images/enthnics.jpg}
-  \caption{In the raw data, the gender and ethnicity are encoder as integer instead of character values.}
+  \caption{In the raw data, the gender and ethnicity are encoded as integer instead of character values.}
   \label{fig:DEMO_J}
 \end{figure}
 
