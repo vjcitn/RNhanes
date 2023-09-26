@@ -3,11 +3,13 @@ title: "nhanesA: Achieving Transparency and Reproducibility in NHANES Research"
 author: ''
 bibliography: references.bib  
 # biblio-style: "apalike"
-csl: biomed-central.csl
 link-citations: true
 output:
   pdf_document:
     citation_package: natbib
+    # pandoc_args: [
+    #   "-V", "classoption=twocolumn"
+    # ]
   bookdown::pdf_book:
     citation_package: biblatex
 ---
@@ -15,9 +17,11 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+
 ## Abstract
 
-NHANES (National Health and Nutrition Examination Survey) covers a very broad array of topics including demography, sociology, health, and nutrition. It has been carried out in two year cycles starting in 1999 and the bulk of the data are public and available to any researcher.  This has made them invaluable in very many areas of research. In this paper we describe methods to aid researchers in developing reproducible research in ways that will allow for sharing and extending previous efforts. We believe that community efforts to enhance reproducibility and sharing of analytic methods will greatly benefit the scientific community and will explain how adopting a few common strategies would be of widespread benefit.
+NHANES (National Health and Nutrition Examination Survey) covers a very broad array of topics including demography, sociology, health, and nutrition. It has been carried out in two year cycles starting in 1999 and the bulk of the data are public and available to any researcher. This has made them invaluable in very many areas of research. In this paper we describe methods to aid researchers in developing reproducible research in ways that will allow for sharing and extending previous efforts. We believe that community efforts to enhance reproducibility and sharing of analytic methods will greatly benefit the scientific community and will explain how adopting a few common strategies would be of widespread benefit. Specifically, we recommend researchers or authors to create reproducible works through Rmarkdown, `nhanesA`, and Github.
 
 ## Introduction
 
@@ -27,7 +31,14 @@ Since 1999, the NHANES survey has been conducted continuously, and the surveys d
  
 However, we have found that replication of published papers remains a challenging endeavor. In our experience even when authors have the best of intentions it is very difficult to replicate the tables and graphs in their papers. This is due to a variety of challenges that largely relate to a lack of specificity in reporting the extent and manner of data cleaning, the details of entry criteria or of case and control definitions, and whether, and if, any transformation or filtering of data points was carried out. While these processes are sometimes challenging to describe in prose they can be succinctly and accurately described in software.
 
+
+
 [We may need a box that describes Markdown documents, Source/Version control systems]
+\begin{figure}
+  \includegraphics{images/process.jpg}
+  \caption{Workflow for ensuring transparent and reproducible research: (1) Authors utilize RMarkdown and R files, managed with Git version control for organization and collaboration. Git and GitHub facilitate this by enabling branching and code merging. (2) Work is committed, pushed, and made public on GitHub in the form of Rmarkdown and R files. (3) The broader research community can fork or clone the repository to reproduce or expand upon the work. Contributions can be integrated via pull requests and subsequent merging.}
+  \label{fig:process}
+\end{figure}
 
 The reproducibility of a paper, or result, can be enhanced by using a number of tools and processes that are commonly used for software development.  An important development was the concept of *markdown* [FIXME: probably better to follow https://en.wikipedia.org/wiki/Markdown for the history of markdown - you have Rmarkdown.
 Also please put a link to the Rmarkdown cheatsheet in the appendix.]
@@ -42,10 +53,10 @@ One popular example of using this approach based on R (@Ihaka1996) is the Epidem
 
 Here we sketch out an outline for writing a paper using the tools we mention in order to create a reproducible paper. By reproducible we really mean that once we have agreed on the data to use, that all of the tables, graphs and other data analyses can be reproduced exactly.  Now this is not the concept of scientific reproducibility where one expects to find a similare result when the basic experiment is repeated on a similar but not identical populations, but it is an important goal in and of itself. 
 
-One would first create a new GitHub repository \cite(@GitHub) for the project.
+One would first create a new GitHub repository \cite{GitHub} for the project.
 Then, identify the variables of interest and the questionnaire files they are in as well as the cycles (years) of data that will be used.  Create an Rmarkdown document and in that use the 'nhanesA' package to download the relevant data.  Check that document in to the GitHub repository so that all updates and modifications are noted and so that anyone can check out the document.
 
-At this point you will start to write code chunks in the document to first transform and filter the data according to the entry criteria for your study.  For example, you might want to look at blood pressure on adults over 40. On examing the 'BXP' tables you find that two different blood pressure measurements (systolic and diastolic) were recored at two different time points.  You have to decide how to process those data.  Do you take only one, or do you average both? What about people that have only one measurement? Do you keep them or remove them?  All of these decisions will impact the analysis and the actual values you report in your paper.  By including the code to do this processing in your markdown document and reader can check the code for the actual steps you took.
+At this point you will start to write code chunks in the document to first transform and filter the data according to the entry criteria for your study.  For example, you might want to look at blood pressure on adults over 40. On examining the 'BXP' tables you find that two different blood pressure measurements (systolic and diastolic) were recorded at two different time points.  You have to decide how to process those data.  Do you take only one, or do you average both? What about people that have only one measurement? Do you keep them or remove them?  All of these decisions will impact the analysis and the actual values you report in your paper.  By including the code to do this processing in your markdown document and reader can check the code for the actual steps you took.
 
 Then as your research progresses you will manipulate the data to compute different summary statistics, perhaps mean diastolic blood pressure by reported ethnicity.  Again the specific details of how you did that will be maintained in the markdown document.  Ultimately you will have finished your analysis and then arrange the outputs, using the tools available for processing Rmarkdown to produce the final paper for publication.
 Then you can submit it. And make sure you commit everything you need (images, tables, text etc) to your GitHub repository.
@@ -88,8 +99,6 @@ The survey questions are delivered sequentially and there is some amount of stru
   \label{fig:BPQ_020}
 \end{figure}
 
-**The cycles, how they work, some gotchas - maybe the P_ tables; the fact that age seems to have had its max value changed from 70 to 80 - if so when?**
-
 
 In the NHANES dataset, data coarsening is frequently observed. For instance, the age variable ('RIDAGEYR' in 'DEMO_B') uses a representation where the value 80 denotes individuals aged 80 and above. Similarly, the ratio of family income to poverty ('INDFMPIR') uses the value 5 to indicate a ratio greater than or equal to 5.00. These practices compromise the precision of numerical values in the dataset. Additionally, some variables, although expressed numerically, are better interpreted as categorical data. Take the Body Mass Index ($11.5 \sim 67.3 kg/m^2$, represented as 'BMXBMI' in 'BMX_I') for example. While it is expressed as a continuous number, categorizing it into predefined ranges such as underweight (<18.5), healthy weight (18.5 to <25), overweight (25.0 to <30), and obesity (30.0 or higher) might yield more meaningful analyses.
 
@@ -121,6 +130,23 @@ RNHANES provides an easy way to download and analyze data from NHANES with a foc
  There is also a package on PyPi - https://pypi.org/project/nhanes/ but it has seen no development since July of 2020
   - none of these seem to address the translation or survey methods requirements of analysing NHANES data.
    You can of course use python to download and then use R connections for the analysis.
+   
+   
+There are two actively maintained Python libraries for working with NHANES data: `nhanes-dl`(https://pypi.org/project/nhanes-dl ) and `pynhanes` (https://pypi.org/project/pynhanes ). In Python, one can utilize Jupyter notebooks to achieve nearly reproducible results. Jupyter notebooks, similar to Rmarkdown, allow for an organized presentation of text, code, and their respective outputs (including plots) within a single document. This facilitates reproducibility, enabling readers to easily replicate and understand the presented work. However, the `nhanes-dl` library is designed to download Continuous NHANES codebooks and convert them into ready-to-use pandas dataframes, although its documentation is somewhat lacking. The `pynhanes` offers several Jupyter notebooks on its GitHub repository(https://github.com/timpyrkov/pynhanes/tree/master/scripts) to demonstrate its usage.
+
+
+
+## Conclusion and future works
+
+NHANES, with its depth and breadth of health and nutritional data, serves as a cornerstone for myriad research endeavors. However, the intricacies and nuances within the data, combined with the varied methodologies employed across different research efforts, present considerable challenges for reproducibility. The distinct delineation between computational reproducibility and scientific reproducibility is critical. The former ensures that once the dataset is agreed upon, all analytical outputs can be precisely replicated, while the latter emphasizes the need for similar results across analogous, though not identical, populations.
+
+Our proposed process offers a structured approach for researchers using the NHANES dataset. Harnessing the synergy between GitHub, Rmarkdown, and specific packages like 'nhanesA', it sets the stage for a transparent, modular, and rigorously organized research process. Every stage, from data selection to preprocessing decisions and analytical procedures, is systematically recorded and versioned, ensuring transparency and reproducibility.
+
+The complexity of the NHANES survey design further underscores the importance of appropriately considering sample weights and the intricate sampling strategies over time. Methodological shifts due to various factors—innovations in survey techniques, global events like the COVID pandemic, or strategic changes in research focus—highlight the dynamic nature of the dataset.
+
+Moreover, tools like the 'nhanesA' package simplify data retrieval and offer functionalities that enhance the integrity of the analysis, such as translating categorical variables. This ensures that research is not only accurate but also more intuitive and user-friendly for subsequent researchers aiming to delve into the dataset.
+
+Despite the myriad tools at our disposal, it's imperative that we maintain a balance between automation and manual scrutiny. The very essence of NHANES, with its evolving nature and adjustments—such as those made during the pandemic—requires us to be vigilant and adaptable. As we continue to explore the depths of NHANES, a commitment to accuracy, adaptability, and reproducibility will be paramount in ensuring that our findings are both reliable and actionable for public health.
 
 
 ## Appendix
