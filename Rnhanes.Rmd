@@ -72,12 +72,11 @@ We recommend using the 'survey'(@JSSv009i08) package from CRAN (@Hornik2012TheCR
 The `nhanesA` package(@Endres2023) was developed to enable fully customizable retrieval of data NHANES. 
 For each cycle of NHANES tables of data within the five publicly available data categories: Demographics, Dietary, Examination, Laboratory and Questionnaire, are produced. There is also limited access data, but that is not publicly available and in order to use a special request must be made.
 
-The available data can be downloaded using https requests from the CDC website. For each table there are two parts, the raw data which is provided in SAS (Statistical Analysis Software) 'XPT' (Transport File Format) format. There is an additional documentation file that describes the data and explains how it is formatted. While many users work off of the raw data that can be problematic due to the way that categorical variables are encoded.  In these files variables like 'sex' or 'ethnicity' are encoded as integer variables and the user needs to translate these into the appropriate character values.  The `nhanesA` package provides a function called `nhanesTranslate` that takes a table name as input and will return the table with all columns translated. We strongly recommend that any analysis be based on translated tables. 
+The available data can be downloaded using https requests from the CDC website. For each table there are two parts, the raw data which is provided in SAS (Statistical Analysis Software) 'XPT' (Transport File Format) format. There is an additional documentation file that describes the data and explains how it is formatted. While many users work off of the raw data that can be problematic due to the way that categorical variables are encoded.  In these files variables like 'gender' or 'ethnicity' are encoded as integer variables and the user needs to translate these into the appropriate character values.  The `nhanesA` package provides a function called `nhanesTranslate` that takes a table name as input and will return the table with all columns translated. We strongly recommend that any analysis be based on translated tables. 
 
 \begin{figure}
-  \includegraphics{images/gender.png}
-  \includegraphics{images/enthnics.jpg}
-  \caption{In the raw data, the gender and ethnicity are encoded as integer instead of character values.}
+  \includegraphics{images/translated.jpg}
+  \caption{a) shows the raw data the both geneder and enthinicity are encoder as intergers. b) shows the translated data with nhanesA.}
   \label{fig:DEMO_J}
 \end{figure}
 
@@ -130,7 +129,7 @@ RNHANES provides an easy way to download and analyze data from NHANES with a foc
    You can of course use python to download and then use R connections for the analysis.
    
    
-There are two actively maintained Python libraries for working with NHANES data: `nhanes-dl`(https://pypi.org/project/nhanes-dl ) and `pynhanes` (https://pypi.org/project/pynhanes ). In Python, one can utilize Jupyter notebooks to achieve nearly reproducible results. Jupyter notebooks, similar to Rmarkdown, allow for an organized presentation of text, code, and their respective outputs (including plots) within a single document. This facilitates reproducibility, enabling readers to easily replicate and understand the presented work. However, the `nhanes-dl` library is designed to download Continuous NHANES codebooks and convert them into ready-to-use pandas dataframes, although its documentation is somewhat lacking. The `pynhanes` offers several Jupyter notebooks on its GitHub repository(https://github.com/timpyrkov/pynhanes/tree/master/scripts) to demonstrate its usage.
+There are two actively maintained Python libraries for working with NHANES data: `nhanes-dl`(https://pypi.org/project/nhanes-dl ) and `pynhanes` (https://pypi.org/project/pynhanes ). In Python, one can utilize Jupyter notebooks to achieve reproducible results. Jupyter notebooks, similar to Rmarkdown, allow for an organized presentation of text, code, and their respective outputs (including plots) within a single document. This facilitates reproducibility, enabling readers to easily replicate and understand the presented work. However, the `nhanes-dl` library is designed to download Continuous NHANES codebooks and convert them into ready-to-use pandas dataframes, although its documentation is somewhat lacking. The `pynhanes` offers several Jupyter notebooks on its GitHub repository(https://github.com/timpyrkov/pynhanes/tree/master/scripts) to demonstrate its usage.
 
 
 
@@ -151,6 +150,9 @@ These tools, though demanding an initial learning curve, are intuitive and effic
 
 ## Code availability
 The `nahensA` package is available to the public on: https://github.com/cjendres1/nhanes
+
+## Confict of interest.
+None declared.
 
 
 ## Appendix
