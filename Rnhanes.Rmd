@@ -36,7 +36,7 @@ However, we have found that replication of published papers remains a challengin
 [We may need a box that describes Markdown documents, Source/Version control systems]
 \begin{figure}
   \includegraphics{images/process.jpg}
-  \caption{Workflow for ensuring transparent and reproducible research: (1) Authors utilize RMarkdown and R files, managed with Git version control for organization and collaboration. The `nhanesA` package facilitates NHANES access. Git and GitHub facilitate this by archiving and source code control. (2) Work is committed, pushed, and made public on GitHub in the form of Rmarkdown and R files. (3) Any one who wants to reproduce the work can fork or clone the repository to reproduce or expand upon the work. They will access the NHANES database in the same way as the original authors. Contributions or extensions can be integrated via pull requests and subsequent merging. Note that they can either retrieve NHANES data by executing the RMarkdown code with the assistance of nhanesA or directly from the CDC web portal. }
+  \caption{Workflow for enabling transparent and reproducible research: (1) Authors use RMarkdown and R files, managed with Git version control for organization and collaboration. The `nhanesA` package facilitates NHANES access. Git and GitHub facilitate this by archiving and source code control. (2) Work is committed, pushed, and made public on GitHub in the form of Rmarkdown and R files. (3) Any one who wants to reproduce the work can clone the repository to reproduce or expand upon the work. They will access the NHANES database in the same way as the original authors and importantly using the same code. Contributions or extensions can be integrated via pull requests and subsequent merging.}
   \label{fig:process}
 \end{figure}
 
@@ -76,7 +76,7 @@ The available data can be downloaded using https requests from the CDC website. 
 
 \begin{figure}
   \includegraphics{images/translated.jpg}
-  \caption{a) shows the raw data the both geneder and enthinicity are encoder as intergers. b) shows the translated data with nhanesA.}
+  \caption{a) shows the raw data the both sex and enthinicity are encoder as intergers. b) shows the translated data with nhanesA.}
   \label{fig:DEMO_J}
 \end{figure}
 
@@ -128,9 +128,7 @@ RNHANES provides an easy way to download and analyze data from NHANES with a foc
   - none of these seem to address the translation or survey methods requirements of analysing NHANES data.
    You can of course use python to download and then use R connections for the analysis.
    
-   
-There are two actively maintained Python libraries for working with NHANES data: `nhanes-dl`(https://pypi.org/project/nhanes-dl ) and `pynhanes` (https://pypi.org/project/pynhanes ). In Python, one can utilize Jupyter notebooks to achieve reproducible results. Jupyter notebooks, similar to Rmarkdown, allow for an organized presentation of text, code, and their respective outputs (including plots) within a single document. This facilitates reproducibility, enabling readers to easily replicate and understand the presented work. However, the `nhanes-dl` library is designed to download Continuous NHANES codebooks and convert them into ready-to-use pandas dataframes, although its documentation is somewhat lacking. The `pynhanes` offers several Jupyter notebooks on its GitHub repository(https://github.com/timpyrkov/pynhanes/tree/master/scripts) to demonstrate its usage.
-
+There are two actively maintained Python libraries for working with NHANES data: `nhanes-dl`(https://pypi.org/project/nhanes-dl ) and `pynhanes` (https://pypi.org/project/pynhanes ). In Python, one can utilize Jupyter notebooks to achieve nearly reproducible results. Jupyter notebooks, similar to Rmarkdown, allow for an organized presentation of text, code, and their respective outputs (including plots) within a single document. This facilitates reproducibility, enabling readers to easily replicate and understand the presented work. However, the `nhanes-dl` library is designed to download Continuous NHANES codebooks and convert them into ready-to-use pandas dataframes, although its documentation is somewhat lacking. The `pynhanes` offers several Jupyter notebooks on its GitHub repository(https://github.com/timpyrkov/pynhanes/tree/master/scripts) to demonstrate its usage.
 
 
 ## Discussion and future work
@@ -144,17 +142,20 @@ The complexity of the NHANES survey design further underscores the importance of
 
 The use of public data ensures transparency, while open-source software fosters collaboration, enabling researchers across the globe to benefit from shared knowledge. The combination of Markdown and a source code repository like GitHub further fortifies this reproducibility, capturing every stage of analysis and allowing others to trace, validate, and expand upon the original research. Moreover, tools within the `nhanesA` package simplify data retrieval and offer functionality that enhances the integrity of the analysis, such as translating categorical variables. This ensures that research is not only accurate but also more intuitive and user-friendly for subsequent researchers aiming to delve into the dataset.
 
-These tools, though demanding an initial learning curve, are intuitive and efficient. As more researchers embrace these practices, the collective reliability and robustness of NHANES-based research will undoubtedly enhance. By fostering an ecosystem of transparent, replicable, and collaborative research, we can reach more informed decisions, richer insights, and a deeper understanding of the NHANES.
-
+ The tools we have described do have a demanding learning curve but once mastered they enable reproducible and shareable research.  We believe that as more researchers embrace these practices, the collective reliability and robustness of NHANES-based research will be enhanced. By fostering an ecosystem of transparent, replicable, and collaborative research, we can make more informed decisions, gain richer insights, and a deeper understanding of epidemiological knowledge contained in NHANES.
 
 
 ## Code availability
 The `nahensA` package is available to the public on: https://github.com/cjendres1/nhanes
-
+and is distributed under the GPL v2 license.
 ## Confict of interest.
 None declared.
 
 
 ## Appendix
+
+### Github - need a description and links here
+
+One additional advantage that is obtained from having software in a GitHub repository is that the commit history is available to anyone who browses to the repository. That enables others to see how active development is.  Of course when browsing other repositories it is advisable to check that information, many software projects are not well maintained and if you are going to rely on one you should try to ensure that the authors are still engaged.
 
 ### Markdown - brief explanation, example and references needed here.
