@@ -31,8 +31,6 @@ Since 1999, the NHANES survey has been conducted continuously, and the surveys d
  
 However, we have found that replication of published papers remains a challenging endeavor. In our experience even when authors have the best of intentions it is very difficult to replicate the tables and graphs in their papers. This is due to a variety of challenges that largely relate to a lack of specificity in reporting the extent and manner of data cleaning, the details of entry criteria or of case and control definitions, and whether, and if, any transformation or filtering of data points was carried out. While these processes are sometimes challenging to describe in prose they can be succinctly and accurately described in software.
 
-
-
 [We may need a box that describes Markdown documents, Source/Version control systems]
 \begin{figure}
   \includegraphics{images/process.jpg}
@@ -124,9 +122,9 @@ We are aware of two actively maintained Python libraries for working with NHANES
 
 ## Discussion and future work
 
-NHANES, with its depth and breadth of health and nutritional data, serves as a cornerstone for myriad research endeavors. However, the intricacies and nuances within the data, combined with the varied methodologies employed across different research efforts, present considerable challenges for reproducibility. The distinct delineation between computational reproducibility and scientific reproducibility is critical. The former ensures that once the dataset is agreed upon, all analytical outputs can be precisely replicated, while the latter emphasizes the need for similar results across analogous, though not identical, populations.
+NHANES, with its depth and breadth of health and nutritional data, serves as a cornerstone for a variety research endeavors. However, the intricacies and nuances within the data, combined with the varied methodologies employed across different research efforts, present considerable challenges for reproducibility. The distinct delineation between computational reproducibility and scientific reproducibility is critical. The former ensures that once the dataset is agreed upon, all analytical outputs can be precisely replicated, while the latter emphasizes the need for similar results across analogous, though not identical, populations.
 
-Our proposed process offers a structured approach for researchers using the NHANES dataset. Harnessing the synergy between GitHub, Rmarkdown, and specific packages like `nhanesA`, it sets the stage for a transparent, modular, and rigorously organized research process. Every stage, from data selection to preprocessing decisions and analytical procedures, is systematically recorded and versioned, ensuring transparency and reproducibility.
+Among the challenges in epidemiology research are the fact that it is challenging in published work to provide succinct yet complete details of some of the many decisions and refinements that are made during an analysis. Our proposed process offers a structured approach for researchers using the NHANES dataset. Harnessing the synergy between GitHub, Rmarkdown, and specific packages like `nhanesA`, it sets the stage for a transparent, modular, and rigorously organized research process. Specific details could include the patient/person selection criteria, any entry criteria: e.g. if we study non-allergic asthma in adults how were cases defined. Details on any considerations of the social determinants of health could be included.  It is also useful to describe the many steps that are often needed to clean and filter the data to ensure that anomalies are resolved.
 
 The complexity of the NHANES survey design further underscores the importance of appropriately considering sample weights and the intricate sampling strategies over time. Methodological shifts due to various factors—innovations in survey techniques, global events like the COVID pandemic, or strategic changes in research focus—highlight the dynamic nature of the dataset.
 
