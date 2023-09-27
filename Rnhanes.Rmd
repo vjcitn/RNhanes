@@ -36,7 +36,7 @@ However, we have found that replication of published papers remains a challengin
 [We may need a box that describes Markdown documents, Source/Version control systems]
 \begin{figure}
   \includegraphics{images/process.jpg}
-  \caption{Workflow for ensuring transparent and reproducible research: (1) Authors utilize RMarkdown and R files, managed with Git version control for organization and collaboration. The `nhanesA` package facilitates NHANES access. Git and GitHub facilitate this by archiving and source code control. (2) Work is committed, pushed, and made public on GitHub in the form of Rmarkdown and R files. (3) Any one who wants to reproduce the work can fork or clone the repository to reproduce or expand upon the work. They will access the NHANES database in the same way as the original authors. Contributions or extensions can be integrated via pull requests and subsequent merging.}
+  \caption{Workflow for ensuring transparent and reproducible research: (1) Authors utilize RMarkdown and R files, managed with Git version control for organization and collaboration. The `nhanesA` package facilitates NHANES access. Git and GitHub facilitate this by archiving and source code control. (2) Work is committed, pushed, and made public on GitHub in the form of Rmarkdown and R files. (3) Any one who wants to reproduce the work can fork or clone the repository to reproduce or expand upon the work. They will access the NHANES database in the same way as the original authors. Contributions or extensions can be integrated via pull requests and subsequent merging. Note that they can either retrieve NHANES data by executing the RMarkdown code with the assistance of nhanesA or directly from the CDC web portal. }
   \label{fig:process}
 \end{figure}
 
