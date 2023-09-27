@@ -142,10 +142,17 @@ Our proposed process offers a structured approach for researchers using the NHAN
 
 The complexity of the NHANES survey design further underscores the importance of appropriately considering sample weights and the intricate sampling strategies over time. Methodological shifts due to various factors—innovations in survey techniques, global events like the COVID pandemic, or strategic changes in research focus—highlight the dynamic nature of the dataset.
 
-Moreover, tools within the `nhanesA` package simplify data retrieval and offer functionality that enhances the integrity of the analysis, such as translating categorical variables. This ensures that research is not only accurate but also more intuitive and user-friendly for subsequent researchers aiming to delve into the dataset.
 
-[FIXME: Not sure this last paragraph adds anything]
-Despite the wide array of tools at our disposal, it's imperative that we maintain a balance between automation and manual scrutiny. The very essence of NHANES, with its evolving nature and adjustments—such as those made during the pandemic—requires us to be vigilant and adaptable. As we continue to explore the depths of NHANES, a commitment to accuracy, adaptability, and reproducibility will be paramount in ensuring that our findings are both reliable and actionable for public health.
+The use of public data ensures transparency, while open-source software fosters collaboration, enabling researchers across the globe to benefit from shared knowledge. The combination of Markdown and a source code repository like GitHub further fortifies this reproducibility, capturing every stage of analysis and allowing others to trace, validate, and expand upon the original research. Moreover, tools within the `nhanesA` package simplify data retrieval and offer functionality that enhances the integrity of the analysis, such as translating categorical variables. This ensures that research is not only accurate but also more intuitive and user-friendly for subsequent researchers aiming to delve into the dataset.
+
+These tools, though demanding an initial learning curve, are intuitive and efficient. As more researchers embrace these practices, the collective reliability and robustness of NHANES-based research will undoubtedly enhance. By fostering an ecosystem of transparent, replicable, and collaborative research, we pave the way for more informed decisions, richer insights, and a deeper understanding of the vast tapestry of health and nutrition patterns in the U.S.
+
+In essence, by championing the paradigms of open access data, collaborative software, and transparent methodologies, we lay a strong foundation for the future of NHANES research. The adoption of these practices is not just a recommendation; it's a clarion call for a brighter, more reliable future in health and nutrition research.
+
+
+
+## Code availability
+The `nahensA` package is available to the public on: https://github.com/cjendres1/nhanes
 
 
 ## Appendix
