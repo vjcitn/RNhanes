@@ -145,7 +145,7 @@ The complexity of the NHANES survey design further underscores the importance of
 
 The use of public data ensures transparency, while open-source software fosters collaboration, enabling researchers across the globe to benefit from shared knowledge. The combination of Markdown and a source code repository like GitHub further fortifies this reproducibility, capturing every stage of analysis and allowing others to trace, validate, and expand upon the original research. Moreover, tools within the `nhanesA` package simplify data retrieval and offer functionality that enhances the integrity of the analysis, such as translating categorical variables. This ensures that research is not only accurate but also more intuitive and user-friendly for subsequent researchers aiming to delve into the dataset.
 
-These tools, though demanding an initial learning curve, are intuitive and efficient. As more researchers embrace these practices, the collective reliability and robustness of NHANES-based research will undoubtedly enhance. By fostering an ecosystem of transparent, replicable, and collaborative research, we can be more informed decisions, richer insights, and a deeper understanding of the NHANES.
+These tools, though demanding an initial learning curve, are intuitive and efficient. As more researchers embrace these practices, the collective reliability and robustness of NHANES-based research will undoubtedly enhance. By fostering an ecosystem of transparent, replicable, and collaborative research, we can make more informed decisions, richer insights, and a deeper understanding of the NHANES.
 
 
 
