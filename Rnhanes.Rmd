@@ -112,22 +112,14 @@ The 'NHANES' package(@Pruim2015) provides a subset of data from the 2009-2010 an
 The 'RNHANES' package (@Susmann2016) is produced by the Silent Spring Institute.
 RNHANES provides an easy way to download and analyze data from NHANES with a focus on the laboratory data. They provide methods to find all data files and to download them. They provide a search capability as well as making some attempt to obtain the units of measurement for the laboratory data.  The 'nhanes_load_data' function provides a method for downloading and merging data, although the features are limited. It also has arguments to allow for recording/translating the factor variables, although that seemed to be very slow to run and often resulted in an error.  There are good functions that encapsulate the use of the 'survey' package, but that seems to be at the expense of flexibility in the analysis.
 
-/* xx = nhanes_load_data("UHG", "2011-2012", demographics = TRUE, recode_demographics =TRUE)
- errors for me
-*/
-
 ### Stata
- https://blog.uvm.edu/tbplante/2018/03/02/downloading-and-analyzing-nhanes-datasets-with-stata-in-a-single-do-file/
-  describes how to download and analyze; they have an example of how to merge, translating values seems to be done in a one at a time manual way.
-  - they seem unaware of the bpq.020 issues - which we should make sure we mention
+
+Stata (cite Stata) is often used to analyze NHANES data.  There are a number of online courses that readers can access such as [UCLA](https://stats.oarc.ucla.edu/stata/seminars/survey-data-analysis-in-stata-17/) or
+[UVM](https://blog.uvm.edu/tbplante/2018/03/02/downloading-and-analyzing-nhanes-datasets-with-stata-in-a-single-do-file/).  These courses provide detailed descriptions of how to download and analyze NHANES data. They have an example of how to merge within cycles and between cycles. Our investigation suggests that translating values appears to be done  one at a time in a manual way. 
 
 ### Python
- https://dept.stat.lsa.umich.edu/~kshedden/Python-Workshop/nhanes_data.html
- There is also a package on PyPi - https://pypi.org/project/nhanes/ but it has seen no development since July of 2020
-  - none of these seem to address the translation or survey methods requirements of analysing NHANES data.
-   You can of course use python to download and then use R connections for the analysis.
-   
-There are two actively maintained Python libraries for working with NHANES data: `nhanes-dl`(https://pypi.org/project/nhanes-dl ) and `pynhanes` (https://pypi.org/project/pynhanes ). In Python, one can utilize Jupyter notebooks to achieve nearly reproducible results. Jupyter notebooks, similar to Rmarkdown, allow for an organized presentation of text, code, and their respective outputs (including plots) within a single document. This facilitates reproducibility, enabling readers to easily replicate and understand the presented work. However, the `nhanes-dl` library is designed to download Continuous NHANES codebooks and convert them into ready-to-use pandas dataframes, although its documentation is somewhat lacking. The `pynhanes` offers several Jupyter notebooks on its GitHub repository(https://github.com/timpyrkov/pynhanes/tree/master/scripts) to demonstrate its usage.
+  
+We are aware of two actively maintained Python libraries for working with NHANES data: `nhanes-dl` <https://pypi.org/project/nhanes-dl> and `pynhanes` <https://pypi.org/project/pynhanes>. In Python, one can use Jupyter notebooks <https://en.wikipedia.org/wiki/Project_Jupyter> to achieve similar levels of reproducibility. Jupyter notebooks, similar to Rmarkdown, allow for an organized presentation of text, code, and their respective outputs (including plots) within a single document. This facilitates reproducibility, enabling readers to easily replicate and understand the presented work. However, the `nhanes-dl` library is designed to download Continuous NHANES codebooks and convert them into ready-to-use pandas dataframes, although its documentation is terse. The `pynhanes` offers several Jupyter notebooks on its GitHub repository <https://github.com/timpyrkov/pynhanes/tree/master/scripts> to demonstrate its usage.
 
 
 ## Discussion and future work
@@ -145,9 +137,12 @@ The use of public data ensures transparency, while open-source software fosters 
 
 
 ## Code availability
+
 The `nahensA` package is available to the public on: https://github.com/cjendres1/nhanes
 and is distributed under the GPL v2 license.
+
 ## Confict of interest.
+
 None declared.
 
 
