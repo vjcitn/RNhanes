@@ -111,16 +111,12 @@ The `RNHANES` package (@Susmann2016) is produced by the Silent Spring Institute.
 RNHANES provides an easy way to download and analyze data from NHANES with a focus on the laboratory data. They provide methods to find all data files and to download them. They provide a search capability as well as making some attempt to obtain the units of measurement for the laboratory data.  The `nhanes_load_data` function provides a method for downloading and merging data, although the features are limited. It also has arguments to allow for recording/translating the factor variables, although that seemed to be very slow to run.  There are good functions that encapsulate the use of the `survey` package, but that seems to be at the expense of flexibility in the analysis.
 
 ### Stata
- https://blog.uvm.edu/tbplante/2018/03/02/downloading-and-analyzing-nhanes-datasets-with-stata-in-a-single-do-file/
-  describes how to download and analyze; they have an example of how to merge, translating values seems to be done in a one at a time manual way.
-  - they seem unaware of the bpq.020 issues - which we should make sure we mention
+
+We did not find any Stata modules or packages but there are good resources available on the web, such as those from the Statistical Consulting Unit at UCLA, https://stats.oarc.ucla.edu/stata/seminars/survey-data-analysis-in-stata-17/.
 
 ### Python
 
-   
 We are aware of two actively maintained Python libraries for working with NHANES data: `nhanes-dl`(https://pypi.org/project/nhanes-dl ) and `pynhanes` (https://pypi.org/project/pynhanes ). In Python, one can use Jupyter notebooks to achieve reproducible results. Jupyter notebooks, similar to Rmarkdown, allow for an organized presentation of text, code, and their respective outputs (including plots) within a single document. This facilitates reproducibility, enabling readers to easily replicate and understand the presented work. However, the `nhanes-dl` library is designed to download Continuous NHANES codebooks and convert them into ready-to-use pandas dataframes, although its documentation is somewhat lacking. The `pynhanes` offers several Jupyter notebooks on its GitHub repository(https://github.com/timpyrkov/pynhanes/tree/master/scripts) to demonstrate its usage.
-
-
 
 ## Discussion and future work
 
@@ -147,3 +143,5 @@ None declared.
 ## Appendix
 
 ### Markdown - brief explanation, example and references needed here.
+
+### GitHub - need a glossary of terms
