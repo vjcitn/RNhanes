@@ -7,9 +7,9 @@ link-citations: true
 output:
   pdf_document:
     citation_package: natbib
-    # pandoc_args: [
-    #   "-V", "classoption=twocolumn"
-    # ]
+    pandoc_args: [
+      "-V", "classoption=twocolumn"
+    ]
   bookdown::pdf_book:
     citation_package: biblatex
 ---
@@ -33,7 +33,7 @@ However, we have found that replication of published papers remains a challengin
 
 \begin{figure}
   \includegraphics{images/process.jpg}
-  \caption{Workflow for ensuring transparent and reproducible research: (1) Authors use RMarkdown and R files, managed with Git version control for organization and collaboration. The `nhanesA` package facilitates NHANES access. Git and GitHub facilitate this by archiving and source code control. (2) Work is committed, pushed, and made public on GitHub in the form of Rmarkdown and R files. (3) Any one who wants to reproduce the work can fork or clone the repository to reproduce or expand upon the work. External users can access the NHANES database in the same way as the original authors. Contributions or extensions can be integrated via pull requests and subsequent merging. }
+  \caption{Workflow for ensuring transparent and reproducible research: (1) Authors use RMarkdown and R files, managed with Git version control for organization and collaboration. The nhanesA package facilitates NHANES access. Git and GitHub facilitate this by archiving and source code control. (2) Work is committed, pushed, and made public on GitHub in the form of Rmarkdown and R files. (3) Any one who wants to reproduce the work can fork or clone the repository to reproduce or expand upon the work. External users can access the NHANES database in the same way as the original authors. Contributions or extensions can be integrated via pull requests and subsequent merging. }
   \label{fig:process}
 \end{figure}
 
@@ -70,11 +70,11 @@ The `nhanesA` package (@Endres2023) was developed to enable fully customizable r
 
 The available data can be downloaded using https requests from the CDC website. For each table there are two components, the raw data which is provided in SAS (Statistical Analysis Software) 'XPT' (Transport File Format) format and a documentation file that describes the data variables and format. Working directly off the raw data can be problematic due to the way that categorical variables are encoded.  For example, variables like *sex* or *ethnicity* are encoded as integer variables and the user needs to translate these into the appropriate character values.  The `nhanesA` package provides a function called `nhanesTranslate` that takes a table name as input and will return the table with all columns translated. Alternatively the user can specify translation as an argument to the main `nhanes` function.  We strongly recommend that any analysis be based on translated tables. 
 
-\begin{figure}
+\begin{figure*}
   \includegraphics{images/translated.jpg}
   \caption{a) shows the raw data the both gender and enthnicity are encoded as integers. b) shows the translated data with nhanesA.}
   \label{fig:DEMO_J}
-\end{figure}
+\end{figure*}
 
 
 Each cycle is based on a different sample of the US population. Within a cycle it is typically the case that not all respondents participate in all of the assays, exams or questionnaires. As a result there can be substantial amounts of missing data and the analyst will need to develop methods for dealing with missingness.
@@ -86,11 +86,11 @@ During the 2019-2020 cycle data collection was disrupted by the pandemic. Theref
 The survey questions are delivered sequentially and there is some amount of structure that will need to be dealt with. In the Blood Pressure and Cholestorol questionnaire for 2005-2006 we show an excerpt of the Data Documentation file in Figure. \ref{fig:BPQ_020}. You can see that in question BPQ_020 that anyone who answered either 'No' or 'Don't know' to the question skipped over question BPQ_030, as it makes little sense for them.  Importantly the value stored in the database for those people for that question was a missing value. Now, in some circumstances an analyst might prefer to assume that if the respondent and not been told that they had high blood pressure once, the also had not been told they had high blood pressure two or more times.   There are many instances in the NHANES data where questions are skipped as part of the survey delivery and it is important that the analyst try to detect those and make reasonable assumptions for the analysis. 
 
 
-\begin{figure}[h]
+\begin{figure*}
   \includegraphics{images/BPQ020D.png}
   \caption{question BPQ\_020.}
   \label{fig:BPQ_020}
-\end{figure}
+\end{figure*}
 
 
 In the NHANES dataset, data coarsening is frequently observed. For instance, the age variable ('RIDAGEYR' in 'DEMO_B') uses a representation where the value 80 denotes individuals aged 80 and above. Similarly, the ratio of family income to poverty ('INDFMPIR') uses the value 5 to indicate a ratio greater than or equal to 5.00. These practices compromise the precision of numerical values in the dataset. Additionally, some variables, although expressed numerically, are better interpreted as categorical data. Take the Body Mass Index ($11.5 \sim 67.3 kg/m^2$, represented as 'BMXBMI' in 'BMX_I') for example. While it is expressed as a continuous number, categorizing it into predefined ranges such as underweight (<18.5), healthy weight (18.5 to <25), overweight (25.0 to <30), and obesity (30.0 or higher) might yield more meaningful analyses.
