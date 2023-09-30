@@ -37,11 +37,11 @@ However, we have found that replication of published papers remains a challengin
   \label{fig:process}
 \end{figure}
 
-The reproducibility of a paper, or result, can be enhanced by using a number of tools and processes that are commonly used for software development.  An important development was the concept of *markdown* [Laha: FIXME: probably better to follow https://en.wikipedia.org/wiki/Markdown for the history of markdown - you have Rmarkdown.
-Also please put a link to the Rmarkdown cheatsheet in the appendix.]
+The reproducibility of a paper, or result, can be enhanced by using a number of tools and processes that are commonly used for software development.  An important development was the concept of *Markdown* (@Gruber), which is a straightforward markup language designed for crafting formatted text without the intricacies of HTML. Rmarkdown builds upon Markdown, intertwining it with the R programming language. Essentially, Rmarkdown is an implementation of Markdown, allowing users to embed R code within a document. This fusion supports dynamic reporting, where narrative and code coexist, fostering clear, reproducible research outcomes.
+
 \cite{Xie2018,Allaire2023}  documents which are documents that integrate software (code) and text. These can be thought of as explicit descriptions of how the figures and the tables in the published paper were created. Rmarkdown documents are processed by different *engines* that transform them into specific outputs such as a PDF format for publication or a HTML output for putting on the web. 
 
-A second important tool to help with reproducibility is the use of version control systems. These were originally developed for software development but they work equally well for writing papers.  A very widely used tool for version control is GitHub (https://github.com/).  One example of using this approach based on R (Laha just the URL for R I think - www.r-project.org..or maybe there is a how to cite R thing somewhere - but definitely not Ihaka and Gentleman...) is the Epidemiologist R Handbook (https://epirhandbook.com/en/) which is written in Bookdown (@Xie2020) and is maintained in GitHub (at https://github.com/appliedepi/epiRhandbook_eng). The authors have created an entire textbook using markdown and they use GitHub to handle version issues as well as bug reporting and fixing. This approach has been used widely in the R community for over 20 years with substantial success. It should come as no surprise to the reader that this paper is also written in markdown and uses GitHub as its source code repository (https://github.com/ainilaha/RNhanes).
+A second important tool to help with reproducibility is the use of version control systems. These were originally developed for software development but they work equally well for writing papers.  A very widely used tool for version control is GitHub (https://github.com/).  One example of using this approach based on R (@R-base) is the Epidemiologist R Handbook (https://epirhandbook.com/en/) which is written in Bookdown (@Xie2020) and is maintained in GitHub (at https://github.com/appliedepi/epiRhandbook_eng). The authors have created an entire textbook using markdown and they use GitHub to handle version issues as well as bug reporting and fixing. This approach has been used widely in the R community for over 20 years with substantial success. It should come as no surprise to the reader that this paper is also written in markdown and uses GitHub as its source code repository (https://github.com/ainilaha/RNhanes).
 
 
 ## A simplified NHANES paper writing process
@@ -86,7 +86,7 @@ During the 2019-2020 cycle data collection was disrupted by the pandemic. Theref
 The survey questions are delivered sequentially and there is some amount of structure that will need to be dealt with. In the Blood Pressure and Cholestorol questionnaire for 2005-2006 we show an excerpt of the Data Documentation file in Figure. \ref{fig:BPQ_020}. You can see that in question BPQ_020 that anyone who answered either 'No' or 'Don't know' to the question skipped over question BPQ_030, as it makes little sense for them.  Importantly the value stored in the database for those people for that question was a missing value. Now, in some circumstances an analyst might prefer to assume that if the respondent and not been told that they had high blood pressure once, the also had not been told they had high blood pressure two or more times.   There are many instances in the NHANES data where questions are skipped as part of the survey delivery and it is important that the analyst try to detect those and make reasonable assumptions for the analysis. 
 
 
-\begin{figure}
+\begin{figure}[h]
   \includegraphics{images/BPQ020D.png}
   \caption{question BPQ\_020.}
   \label{fig:BPQ_020}
@@ -96,10 +96,16 @@ The survey questions are delivered sequentially and there is some amount of stru
 In the NHANES dataset, data coarsening is frequently observed. For instance, the age variable ('RIDAGEYR' in 'DEMO_B') uses a representation where the value 80 denotes individuals aged 80 and above. Similarly, the ratio of family income to poverty ('INDFMPIR') uses the value 5 to indicate a ratio greater than or equal to 5.00. These practices compromise the precision of numerical values in the dataset. Additionally, some variables, although expressed numerically, are better interpreted as categorical data. Take the Body Mass Index ($11.5 \sim 67.3 kg/m^2$, represented as 'BMXBMI' in 'BMX_I') for example. While it is expressed as a continuous number, categorizing it into predefined ranges such as underweight (<18.5), healthy weight (18.5 to <25), overweight (25.0 to <30), and obesity (30.0 or higher) might yield more meaningful analyses.
 
 ##FIXME: do we want to put this in as an example?  Just wondering...
+
+
 ```{r loadlibs}
 # library(nhanesA)
-# demo = nhanes("DEMO_J")
+# demo_j = nhanes("DEMO_J")
+# dim(demo_j)
+# colnames(demo_j)
+# nhanesCodebook('DEMO_J', 'RIAGENDR')
 ```
+More examples refer to vignettes: https://cran.r-project.org/web/packages/nhanesA/vignettes/Introducing_nhanesA.html
 
 ## Other Approaches
 
@@ -144,4 +150,29 @@ None declared.
 
 ### Markdown - brief explanation, example and references needed here.
 
-### GitHub - need a glossary of terms
+Markdown is a lightweight markup language that uses simple syntax to format text. Designed for readability and simplicity, it enables the creation of well-structured documents without the complexities of HTML. Common uses include README files, forums, and documentation. With Markdown, elements like headers, links, lists, and bold or italic text are easily achieved using non-intrusive syntax.
+Markdown Cheat Sheet:https://www.markdownguide.org/cheat-sheet/
+
+Rmarkdown, on the other hand, extends the capabilities of Markdown for the R programming community. It seamlessly integrates the R code with Markdown, allowing users to embed R code chunks within the text. When an Rmarkdown file is executed using tools like knitr, the R code is run, and its outputs (graphs, tables, etc.) are embedded directly into the document. This results in dynamic, interactive reports that combine narrative, code, and output in a single document.
+R Markdown Cheat Sheet:https://rmarkdown.rstudio.com/lesson-15.HTML
+
+### Git and GitHub 
+
+**Git:** At its core, Git is a distributed version control system. It allows multiple users to work on the same project without interfering with each other's changes. By maintaining a history of every modification, Git ensures that users can revert to any previous state of their project, thus facilitating a consistent and error-free development process.
+
+**GitHub:** While Git is the underlying system that tracks changes, GitHub is a web-based platform that hosts Git repositories. It provides a visual interface and additional tools for collaboration, making it easier for researchers and developers to share, discuss, and collaborate on their projects.
+
+Key Concepts:
+
+1. **Repository (Repo)**: A repository is essentially a project's folder containing all files, folders, and relevant data. It also holds the project's revision history. On GitHub, repositories can be public or private, allowing for open-source collaboration or private work, respectively.
+
+2. **Clone**: Cloning refers to creating a copy of a repository from GitHub onto your local machine. This allows researchers to work on their projects offline and synchronize changes later.
+
+3. **Commit**: When you make changes to your project, Git tracks them. Committing is the process of saving these changes to the local repository. Every commit requires a message to briefly describe what was done, ensuring future users (or the future you) understand the project's evolution.
+
+4. **Push**: Once changes are committed locally, they need to be sent or 'pushed' to the GitHub repository. This ensures that your online repository is up-to-date with your local changes.
+
+5. **Merge**: As multiple collaborators work on a project, there will be instances when two or more people modify the same piece of information. Merging is the process of combining different sequences of commits into one unified history, resolving any conflicts that arise.
+
+6. **Branch**: In Git, the main line of development is called the 'main' branch. However, when working on new features or testing out ideas without affecting the main line, users can create a 'branch' or a parallel line of development. Once satisfied with the changes, the branch can be 'merged' back into the main line.
+
