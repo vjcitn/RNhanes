@@ -104,12 +104,24 @@ In the NHANES dataset, data coarsening is frequently observed. For instance, the
 ##FIXME: do we want to put this in as an example?  Just wondering...
 
 
-```{r loadlibs}
-# library(nhanesA)
-# demo_j = nhanes("DEMO_J")
-# dim(demo_j)
-# colnames(demo_j)
-# nhanesCodebook('DEMO_J', 'RIAGENDR')
+```{r loadlibs,eval=T}
+library(nhanesA)
+demo_j = nhanes("DEMO_J")
+dim(demo_j)
+colnames(demo_j)
+nhanesCodebook('DEMO_J', 'RIAGENDR')
+
+## row bind dataframes with different columns
+demo_i = nhanes("DEMO_J")
+dim(demo_i)
+demo = dplyr::bind_rows(demo_i,demo_j)
+
+## merge DEMO_J and BXP_J with SEQN.  
+bpx_j = nhanes("BPX_J")
+data = merge(demo_j,bpx_j, by="SEQN")
+
+head(data[,c("SEQN","RIAGENDR","RIDRETH1","BPXDI1","BPXSY1")])
+
 ```
 More examples refer to vignettes: https://cran.r-project.org/web/packages/nhanesA/vignettes/Introducing_nhanesA.html
 
