@@ -23,46 +23,38 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Abstract
 
-The National Health and Nutrition Examination Survey (NHANES) covers a very broad array of topics including demography, sociology, health, and nutrition. The survey has been carried out in two year cycles starting in 1999 and the bulk of the data are public and available to any researcher. This has made them invaluable in very many areas of research. In this paper we describe methods to aid researchers in developing reproducible research in ways that will allow for sharing and extending previous efforts. We believe that community efforts to enhance reproducibility and sharing of analytic methods will greatly benefit the scientific community and will explain how adopting a few common strategies would be of widespread benefit. Specifically, we recommend researchers or authors to create reproducible works through Rmarkdown, `nhanesA`, and Github.
+The National Health and Nutrition Examination Survey (NHANES) covers a very broad array of topics including demography, sociology, health, and nutrition. Since 1999 the survey has been carried out in two year cycles and the bulk of the data collected are publicly available to any researcher. This has made them invaluable in very many areas of research such as social determinants of health and examining trends in obesity and other health outcomes. Assembling the data and analyzing it present a number of technical and analytic challenges. In this paper we describe the `nhanesA` package which is designed to aid researchers in obtaining and analyzing the data as well as enabling the sharing and extending of previous efforts. We believe that community efforts to enhance reproducibility and sharing of analytic methods will greatly benefit the scientific community.
 
 
 ::: {custom-style="two-column"}
 
 ## Introduction
 
-NHANES is a pivotal program of studies aimed at evaluating the health and nutritional well-being of both adults and children residing in the United States. Its distinctive feature lies in its comprehensive approach, which combines detailed interviews and thorough physical examinations. NHANES is administered by the National Center for Health Statistics (NCHS), an integral part of the Centers for Disease Control and Prevention (CDC), which holds the responsibility for generating crucial health and vital statistics for the entire nation.
+NHANES <https://www.cdc.gov/nchs/nhanes/> is a pivotal program of studies aimed at evaluating the health and nutritional well-being of both adults and children residing in the United States. Its distinctive feature lies in its comprehensive approach, which combines detailed interviews and thorough physical examinations. NHANES is administered by the National Center for Health Statistics (NCHS), an integral part of the Centers for Disease Control and Prevention (CDC), which holds the responsibility for generating crucial health and vital statistics for the entire nation.
  
-Since 1999, the NHANES survey has been conducted continuously, and the surveys during that period are referred to as "continuous NHANES" to distinguish from several prior surveys. Continuous NHANES surveys are grouped in two-year *cycles*, with the first cycle carried out in 1999-2000.  For the most part the data are public and are very widely used for a variety of different analysis.  In fact, searching PubMed for the published papers that cite NHANES shows that currently more than 5,000 papers per year make some use of this resource. The bulk of the NHANES data are available for download from the CDC website, https://www.cdc.gov/nchs/nhanes.htm. Detailed instructions on using the data, how to download it and interpret it are given.
+Since 1999, the NHANES survey has been conducted continuously, and the surveys during that period are referred to as "continuous NHANES" to distinguish from several prior surveys. Continuous NHANES surveys are grouped in two-year *cycles*, with the first cycle carried out in 1999-2000.  For the most part the data are public and are very widely used for a variety of different analysis.  In fact, searching PubMed for the published papers that cite NHANES shows that currently more than 5,000 papers per year make some use of this resource. The bulk of the NHANES data are available for download from the CDC website. Detailed instructions on using the data, how to download it and analyze it are given.
+
+Other benefits: 
+ - different ethnicities
+ - ages ranging from babies to the elderly
+ - oversampling some of the rarer populations
+ - why is NHANES influential - trends in obesity, social determinants of health research
+ - another challenge is appropriate use of survey weights in analysis
+ - it provides a resource for identifying changes in trends over time - so if we look at obesity, can we show any slow down or remediation in a more recent version - that is simplified if we have easy access to any previous results
  
 However, we have found that replication of published papers remains a challenging endeavor. In our experience even when authors have the best of intentions it is very difficult to replicate the tables and graphs in their papers. This is due to a variety of challenges that largely relate to a lack of specificity in reporting the extent and manner of data cleaning, the details of entry criteria or of case and control definitions, and whether, and if, any transformation or filtering of data points was carried out. While these processes are sometimes challenging to describe in prose they can be succinctly and accurately described in software.
-:::
 
-\begin{figure}
-  \includegraphics{images/process.jpg}
-  \caption{Workflow for ensuring transparent and reproducible research: (1) Authors use RMarkdown and R files, managed with Git version control for organization and collaboration. The nhanesA package facilitates NHANES access. Git and GitHub facilitate this by archiving and source code control. (2) Work is committed, pushed, and made public on GitHub in the form of Rmarkdown and R files. (3) Any one who wants to reproduce the work can fork or clone the repository to reproduce or expand upon the work. External users can access the NHANES database in the same way as the original authors. Contributions or extensions can be integrated via pull requests and subsequent merging. }
-  \label{fig:process}
-\end{figure}
+## Methods
 
-The reproducibility of a paper, or result, can be enhanced by using a number of tools and processes that are commonly used for software development.  An important development was the concept of *Markdown* @Gruber, which is a straightforward markup language designed for crafting formatted text without the intricacies of HTML. Rmarkdown builds upon Markdown, intertwining it with the R programming language. Essentially, Rmarkdown is an implementation of Markdown, allowing users to embed R code within a document. This fusion supports dynamic reporting, where narrative and code coexist, fostering clear, reproducible research outcomes.
+The publicly available NHANES data consists of about 1000 different tables, or questionnaires. Within each two year cycle the questionnaires refer to the same set of individuals. Each cycle surveys a distinct set of individuals using a cluster sample approach that is detailed here <https://wwwn.cdc.gov/nchs/nhanes/tutorials/SampleDesign.aspx>. Within each cycle individuals are given a unique identifier, `SEQN`, which can be used to join questionnaires. Between cycles some questionnaires, such as Demography (DEMO), are repeated, but there can be changes to which variables are collected. There
 
-\cite{Xie2018,Allaire2023}  documents which are documents that integrate software (code) and text. These can be thought of as explicit descriptions of how the figures and the tables in the published paper were created. Rmarkdown documents are processed by different *engines* that transform them into specific outputs such as a PDF format for publication or a HTML output for putting on the web. 
+Challenges:
+1) align tables within a cycle
+2) align tables across cycles
+3) translate tables - to avoid integer codes
+4) survey weights - need to use them to obtain valid estimates
 
-A second important tool to help with reproducibility is the use of version control systems. These were originally developed for software development but they work equally well for writing papers.  A very widely used tool for version control is GitHub (https://github.com/).  One example of using this approach based on R @R-base is the Epidemiologist R Handbook (https://epirhandbook.com/en/) which is written in Bookdown @Xie2020 and is maintained in GitHub (at https://github.com/appliedepi/epiRhandbook_eng). The authors have created an entire textbook using markdown and they use GitHub to handle version issues as well as bug reporting and fixing. This approach has been used widely in the R community for over 20 years with substantial success. It should come as no surprise to the reader that this paper is also written in markdown and uses GitHub as its source code repository (https://github.com/ainilaha/RNhanes).
-
-
-## A simplified NHANES paper writing process
-
-Here we sketch out an outline for writing a paper using the tools we mention in order to create a reproducible paper. By reproducible we really mean that once we have agreed on the data to use, that all of the tables, graphs and other data analyses can be reproduced exactly.  Now this is not the concept of scientific reproducibility where one expects to find a similare result when the basic experiment is repeated on a similar but not identical populations, but it is an important goal in and of itself. 
-
-One would first create a new GitHub repository for the project.
-Then, identify the variables of interest and the questionnaire files they are in as well as the cycles (years) of data that will be used.  Create an Rmarkdown document and in that use the `nhanesA` package to download the relevant data.  The author will then check that document into the GitHub repository so that all updates and modifications are noted and so that anyone can check out the document.
-
-At this point you will start to write code chunks in the document to first transform and filter the data according to the entry criteria for your study.  For example, you might want to look at blood pressure on adults over 40. On examining the `BXP` tables you find that two different blood pressure measurements (systolic and diastolic) were recorded at two different time points.  You have to decide how to process those data.  Do you take only one, or do you average both? What about people that have only one measurement? Do you keep them or remove them?  All of these decisions will impact the analysis and the actual values you report in your paper.  By including the code to do this processing in your markdown document and reader can check the code for the actual steps you took.
-
-Then as your research progresses you will manipulate the data to compute different summary statistics, perhaps mean diastolic blood pressure by reported ethnicity.  Again the specific details of how you did that will be maintained in the markdown document.  Ultimately you will have finished your analysis and then arrange the outputs, using the tools available for processing Rmarkdown to produce the final paper for publication.
-Then you can submit it. And make sure you commit everything you need (images, tables, text etc) to your GitHub repository.
-
-Once the reviews come back you will update and modify that code and text to reflect the changes that have been asked for. And again you will check in all the files and changes. Once your paper is published you can refer interested parties to your GitHub repository where they can download the markdown documents and rerun them. Perhaps they will make changes to your assumptions to see whether the results change. 
+The `nhanesA` package provides a set of functions in the R programming language that can be used to search for variables and questionnaires, download data to the users computer, and analyze the data.
  
 ## Survey Design
 
@@ -103,26 +95,74 @@ In the NHANES dataset, data coarsening is frequently observed. For instance, the
 
 ##FIXME: do we want to put this in as an example?  Just wondering...
 
+## Example
+Here we will demonstrate the use of the `nhanesA` package, together with the `survey` package to look at average blood pressure for individuals over 40 years of age by reported ethnicity for the 2017-2018 cycle.  To do that we need to obtain the demographic data (DEMO_J) and the blood pressure data (BXP_J) and merge them.
 
-```{r loadlibs,eval=T}
-library(nhanesA)
-demo_j = nhanes("DEMO_J")
-dim(demo_j)
-colnames(demo_j)
-nhanesCodebook('DEMO_J', 'RIAGENDR')
 
-## row bind dataframes with different columns
-demo_i = nhanes("DEMO_J")
-dim(demo_i)
-demo = dplyr::bind_rows(demo_i,demo_j)
+```{r loadlibs, eval=T}
+library("nhanesA")
 
-## merge DEMO_J and BXP_J with SEQN.  
-bpx_j = nhanes("BPX_J")
-data = merge(demo_j,bpx_j, by="SEQN")
+demoj = nhanes("DEMO_J")
+dim(demoj)
 
-head(data[,c("SEQN","RIAGENDR","RIDRETH1","BPXDI1","BPXSY1")])
+## merge DEMO_J and BXP_J using SEQN.  
+bpxj = nhanes("BPX_J")
+data = merge(demoj, bpxj, by="SEQN")
+dim(data)
+```
+
+In order to make appropriate estimates of we will need to create a survey design object to incorporate the weights into our analysis. It is essential to create the survey design structure prior to doing any subsetting your data. This ensures that the complex survey design features, such as stratification and clustering, are accurately captured and applied to the entire dataset. The CDC provides detailed explanations on its website at <https://wwwn.cdc.gov/nchs/nhanes/tutorials/weighting.aspx>.
+
+
+```{r survery}
+library("survey")
+nhanesDesign <- svydesign(id = ~SDMVPSU,  # Primary Sampling Units (PSU)
+                          strata  = ~SDMVSTRA, # Stratification used in the survey
+                          weights = ~WTMEC2YR,   # Survey weights
+                          nest    = TRUE,      # Whether PSUs are nested within strata
+                          data    = data)
 
 ```
+
+Next we subset the data to contain only those over 40 years of age. Now we must use the tools in the `survey` package to do any manipulation of the data.  This ensures that appropriate adjustment of weights is made so that subsequent analyses are appropriate.
+We also create a second subset, that is not contained within a survey design framework so that it is easy to examine the unadjusted values.
+
+
+```{r surveydesign}
+
+dfsub = subset(nhanesDesign, data$RIDAGEYR>=40)
+
+datasub = data[data$RIDAGEYR>=40,]
+
+```
+
+Next we will look at the reported ethnicity: variable RIDRETH1 in table DEMO_J.
+We will examine the diasotolic blood pressure and for ease of presentation we only use the first measurement, variable BPXDI1 in tabel BPX_J.
+
+```{r ethtables}
+table(datasub$RIDRETH1)
+##divide the data by
+sp1 = split(datasub$BPXDI1, datasub$RIDRETH1)
+mns = sapply(sp1, mean, na.rm=TRUE)
+mns
+```
+
+Now, we perform the same analysis using the survey weigths.
+
+```{r svyby}
+adjmns = svymean(~BPXDI1, dfsub, na.rm=TRUE)
+adjmns
+# By ethnicity
+adjmnsbyEth = svyby(~BPXDI1, ~RIDRETH1, dfsub, svymean, na.rm=TRUE)
+adjmnsbyEth
+##all.equal(names(mns), as.character(adjmnsbyEth$RIDRETH1)
+
+cbind(mns, adjmnsbyEth$BPXDI1)
+# By Gender 
+svyby(~BPXDI1, ~RIAGENDR, dfsub, svymean, na.rm=TRUE)
+
+```
+
 More examples refer to vignettes: https://cran.r-project.org/web/packages/nhanesA/vignettes/Introducing_nhanesA.html
 
 ## Other Approaches
@@ -161,12 +201,29 @@ These tools, though demanding an initial learning curve, are intuitive and effic
 The `nhanesA` package is available to the public on: https://github.com/cjendres1/nhanes. The current CRAN version is also available at https://github.com/cran/nhanesA.
 
 ## Confict of interest.
-None declared.
+RG consults broadly in the pharmaceutical and Biotech industries.
 
 
 ## Appendix
 
-### Markdown - brief explanation, example and references needed here.
+### Reproducible research
+
+We believe that the `nhanesA` package makes a substantial contribution to enhancing reproducibility and rigor in the scientific process. Here we want to outline a few tools that can be used in conjunction with `nhanesA` to create documents that are reusable and extensible. The reproducibility of a paper, or result, can be enhanced by using a number of tools and processes that are commonly used for software development. We outline thes set of tools that we believe are useful and then give a vignette outlining a simplified paper-writing approach that uses these tools. 
+
+An important development was the concept of *Markdown* @Gruber, which is a straightforward markup language designed for crafting formatted text without the intricacies of HTML. Rmarkdown builds upon Markdown, intertwining it with the R programming language. Essentially, Rmarkdown is an implementation of Markdown, allowing users to embed R code within a document. This fusion supports dynamic reporting, where narrative and code coexist, fostering clear, reproducible research outcomes.
+
+\cite{Xie2018,Allaire2023}  documents which are documents that integrate software (code) and text. These can be thought of as explicit descriptions of how the figures and the tables in the published paper were created. Rmarkdown documents are processed by different *engines* that transform them into specific outputs such as a PDF format for publication or a HTML output for putting on the web. 
+
+A second important tool to help with reproducibility is the use of version control systems. These were originally developed for software development but they work equally well for writing papers.  A very widely used tool for version control is GitHub (https://github.com/).  One example of using this approach based on R @R-base is the Epidemiologist R Handbook (https://epirhandbook.com/en/) which is written in Bookdown @Xie2020 and is maintained in GitHub (at https://github.com/appliedepi/epiRhandbook_eng). The authors have created an entire textbook using markdown and they use GitHub to handle version issues as well as bug reporting and fixing. This approach has been used widely in the R community for over 20 years with substantial success. It should come as no surprise to the reader that this paper is also written in markdown and uses GitHub as its source code repository (https://github.com/ainilaha/RNhanes).
+
+\begin{figure}
+  \includegraphics{images/process.jpg}
+  \caption{Workflow for ensuring transparent and reproducible research: (1) Authors use RMarkdown and R files, managed with Git version control for organization and collaboration. The nhanesA package facilitates NHANES access. Git and GitHub facilitate this by archiving and source code control. (2) Work is committed, pushed, and made public on GitHub in the form of Rmarkdown and R files. (3) Any one who wants to reproduce the work can fork or clone the repository to reproduce or expand upon the work. External users can access the NHANES database in the same way as the original authors. Contributions or extensions can be integrated via pull requests and subsequent merging. }
+  \label{fig:process}
+\end{figure}
+
+
+#### Markdown
 
 Markdown is a lightweight markup language that uses simple syntax to format text. Designed for readability and simplicity, it enables the creation of well-structured documents without the complexities of HTML. Common uses include README files, forums, and documentation. With Markdown, elements like headers, links, lists, and bold or italic text are easily achieved using non-intrusive syntax.
 Markdown Cheat Sheet:https://www.markdownguide.org/cheat-sheet/
@@ -174,7 +231,7 @@ Markdown Cheat Sheet:https://www.markdownguide.org/cheat-sheet/
 Rmarkdown, on the other hand, extends the capabilities of Markdown for the R programming community. It seamlessly integrates the R code with Markdown, allowing users to embed R code chunks within the text. When an Rmarkdown file is executed using tools like knitr, the R code is run, and its outputs (graphs, tables, etc.) are embedded directly into the document. This results in dynamic, interactive reports that combine narrative, code, and output in a single document.
 R Markdown Cheat Sheet:https://rmarkdown.rstudio.com/lesson-15.HTML
 
-### Git and GitHub 
+#### Git and GitHub 
 
 **Git:** At its core, Git is a distributed version control system. It allows multiple users to work on the same project without interfering with each other's changes. By maintaining a history of every modification, Git ensures that users can revert to any previous state of their project, thus facilitating a consistent and error-free development process.
 
@@ -193,6 +250,21 @@ Key Concepts:
 5. **Merge**: As multiple collaborators work on a project, there will be instances when two or more people modify the same piece of information. Merging is the process of combining different sequences of commits into one unified history, resolving any conflicts that arise.
 
 6. **Branch**: In Git, the main line of development is called the 'main' branch. However, when working on new features or testing out ideas without affecting the main line, users can create a 'branch' or a parallel line of development. Once satisfied with the changes, the branch can be 'merged' back into the main line.
+
+### A simplified NHANES paper writing process
+
+Here we sketch out an outline for writing a paper using the tools we mention in order to create a reproducible paper. By reproducible we really mean that once we have agreed on the data to use, that all of the tables, graphs and other data analyses can be reproduced exactly.  Now this is not the concept of scientific reproducibility where one expects to find a similare result when the basic experiment is repeated on a similar but not identical populations, but it is an important goal in and of itself. 
+
+One would first create a new GitHub repository for the project.
+Then, identify the variables of interest and the questionnaire files they are in as well as the cycles (years) of data that will be used.  Create an Rmarkdown document and in that use the `nhanesA` package to download the relevant data.  The author will then check that document into the GitHub repository so that all updates and modifications are noted and so that anyone can check out the document.
+
+At this point you will start to write code chunks in the document to first transform and filter the data according to the entry criteria for your study.  For example, you might want to look at blood pressure on adults over 40. On examining the `BXP` tables you find that two different blood pressure measurements (systolic and diastolic) were recorded at two different time points.  You have to decide how to process those data.  Do you take only one, or do you average both? What about people that have only one measurement? Do you keep them or remove them?  All of these decisions will impact the analysis and the actual values you report in your paper.  By including the code to do this processing in your markdown document and reader can check the code for the actual steps you took.
+
+Then as your research progresses you will manipulate the data to compute different summary statistics, perhaps mean diastolic blood pressure by reported ethnicity.  Again the specific details of how you did that will be maintained in the markdown document.  Ultimately you will have finished your analysis and then arrange the outputs, using the tools available for processing Rmarkdown to produce the final paper for publication.
+Then you can submit it. And make sure you commit everything you need (images, tables, text etc) to your GitHub repository.
+
+Once the reviews come back you will update and modify that code and text to reflect the changes that have been asked for. And again you will check in all the files and changes. Once your paper is published you can refer interested parties to your GitHub repository where they can download the markdown documents and rerun them. Perhaps they will make changes to your assumptions to see whether the results change. 
+
 
 ## References
 
