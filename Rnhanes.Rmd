@@ -32,30 +32,26 @@ The National Health and Nutrition Examination Survey (NHANES) covers a very broa
 
 NHANES <https://www.cdc.gov/nchs/nhanes/> is a pivotal program of studies aimed at evaluating the health and nutritional well-being of both adults and children residing in the United States. Its distinctive feature lies in its comprehensive approach, which combines detailed interviews and thorough physical examinations. NHANES is administered by the National Center for Health Statistics (NCHS), an integral part of the Centers for Disease Control and Prevention (CDC), which holds the responsibility for generating crucial health and vital statistics for the entire nation.
  
-Since 1999, the NHANES survey has been conducted continuously, and the surveys during that period are referred to as "continuous NHANES" to distinguish from several prior surveys. Continuous NHANES surveys are grouped in two-year *cycles*, with the first cycle carried out in 1999-2000.  For the most part the data are public and are very widely used for a variety of different analysis.  In fact, searching PubMed for the published papers that cite NHANES shows that currently more than 5,000 papers per year make some use of this resource. The bulk of the NHANES data are available for download from the CDC website. Detailed instructions on using the data, how to download it and analyze it are given.
+Since 1999, the NHANES survey has been conducted continuously, and the surveys during that period are referred to as "continuous NHANES" to distinguish from several prior surveys. Continuous NHANES surveys are grouped in two-year *cycles*, with the first cycle carried out in 1999-2000.  For the most part the data are public and are very widely used for a variety of different analysis.  In fact, searching PubMed for the published papers that cite NHANES shows that currently more than 5,000 papers per year make some use of this resource. The bulk of the NHANES data are available for download from the CDC website where detailed instructions on using the data, how to download it and analyze it are given.
 
-Other benefits: 
- - different ethnicities
- - ages ranging from babies to the elderly
- - oversampling some of the rarer populations
- - why is NHANES influential - trends in obesity, social determinants of health research
- - another challenge is appropriate use of survey weights in analysis
- - it provides a resource for identifying changes in trends over time - so if we look at obesity, can we show any slow down or remediation in a more recent version - that is simplified if we have easy access to any previous results
+The sampling strategy used by NHANES provides researchers with access to a number of citizens that are often missing or under-represented in other epidemiology studies. These include a range of ethnicities, diverse ages ranging from babies to the elderly, and oversampling some of the rarer populations. NHANES has been useful as a way to study both prevalence and changes over time in obesity, social determinants of health and other important public health issues.  While each cycle is cross-sectional one can examine the time ordering of cycles to get a sense of how different characteristics of the population change with time. This sampling design introduces complexity into the analysis and researchers must be careful to use appropriate survey methodology.  To support this the `nhanesA` package includes a vignette describing the appropriate use of these methods and points the reader to a large variety of on-line resources.
  
-However, we have found that replication of published papers remains a challenging endeavor. In our experience even when authors have the best of intentions it is very difficult to replicate the tables and graphs in their papers. This is due to a variety of challenges that largely relate to a lack of specificity in reporting the extent and manner of data cleaning, the details of entry criteria or of case and control definitions, and whether, and if, any transformation or filtering of data points was carried out. While these processes are sometimes challenging to describe in prose they can be succinctly and accurately described in software.
+However, we have found that replication of published papers remains a demanding endeavor. In our experience even when authors have the best of intentions it is very difficult to replicate the tables and graphs in their papers. This is due to a variety of challenges that largely relate to a lack of specificity in reporting the extent and manner of data cleaning, the details of inclusion criteria or specific phenotypic definitions. Additionally it is difficult to accurately report on the extent to which the data were transformed or filtered during the analysis. While accurate textual description of these processes is hard they can be succinctly and accurately described in software and we propose methods to make it easier to ensure that the software descriptions of the analysis are syncronized with the outputs and easily shared with interested readers.
 
 ## Methods
 
-The publicly available NHANES data consists of about 1000 different tables, or questionnaires. Within each two year cycle the questionnaires refer to the same set of individuals. Each cycle surveys a distinct set of individuals using a cluster sample approach that is detailed here <https://wwwn.cdc.gov/nchs/nhanes/tutorials/SampleDesign.aspx>. Within each cycle individuals are given a unique identifier, `SEQN`, which can be used to join questionnaires. Between cycles some questionnaires, such as Demography (DEMO), are repeated, but there can be changes to which variables are collected. There
+The publicly available continuous NHANES data consists of over 1000 different tables, or questionnaires. Each cycle surveys a distinct set of individuals using a cluster sample approach that is detailed here <https://wwwn.cdc.gov/nchs/nhanes/tutorials/SampleDesign.aspx>. Within each two year cycle surveyed individuals are given a unique identifier, `SEQN`, which can be used to link across questionnaires. Between cycles some questionnaires, such as Demography (DEMO), are repeated, and it is possible to join these based on the variables, but there can be changes to which variables are collected and in some instances the meaning of the variable may have changed.  
 
-Challenges:
-1) align tables within a cycle
-2) align tables across cycles
-3) translate tables - to avoid integer codes
-4) survey weights - need to use them to obtain valid estimates
+When working with NHANES data there are a small number of computational tasks that need to be addressed. FIXME:Laha - fill in your stuff here - maybe some details under each of the list items - or we could make each of these a sub heading and then have a description and some example code? That might be better.
 
-The `nhanesA` package provides a set of functions in the R programming language that can be used to search for variables and questionnaires, download data to the users computer, and analyze the data.
- 
+- search for the variables and data files that you will use to perform the analysis
+- download the data onto your local computer
+- align tables within a cycle
+- align tables across cycles
+- translate tables - to avoid integer codes
+- use the survey weights to obtain valid estimates
+
+
 ## Survey Design
 
 An important goal of NHANES is to produce national estimates of a wide variety of health, nutrition and other variables that are representative of the total noninstitutionalized civilian U.S. population. NHANES uses a complex, four-stage sample design and appropriate analyses typically involve using specialized survey analysis procedures that use special weights that account for the sampling scheme that was used to collect the data. NHANES sample weights are provided as part of the data that can be downloaded and there is extensive documentation provided on the CDC website describing the proper use of these weights (https://wwwn.cdc.gov/nchs/nhanes/tutorials/default.aspx). It is important to realize that for a variety of reasons there are different strategies that have been used over time due to improvements in methodology, external factors such as the COVID epidemic, and recently due to a desire to migrate the project to a more longitudinal view. All of these changes have the potential to impact an analysis and often require substantial care on the part of the analyst.
@@ -92,8 +88,6 @@ The survey questions are delivered sequentially and there is some amount of stru
 
 
 In the NHANES dataset, data coarsening is frequently observed. For instance, the age variable ('RIDAGEYR' in 'DEMO_B') uses a representation where the value 80 denotes individuals aged 80 and above. Similarly, the ratio of family income to poverty ('INDFMPIR') uses the value 5 to indicate a ratio greater than or equal to 5.00. These practices compromise the precision of numerical values in the dataset. Additionally, some variables, although expressed numerically, are better interpreted as categorical data. Take the Body Mass Index ($11.5 \sim 67.3 kg/m^2$, represented as 'BMXBMI' in 'BMX_I') for example. While it is expressed as a continuous number, categorizing it into predefined ranges such as underweight (<18.5), healthy weight (18.5 to <25), overweight (25.0 to <30), and obesity (30.0 or higher) might yield more meaningful analyses.
-
-##FIXME: do we want to put this in as an example?  Just wondering...
 
 ## Example
 Here we will demonstrate the use of the `nhanesA` package, together with the `survey` package to look at average blood pressure for individuals over 40 years of age by reported ethnicity for the 2017-2018 cycle.  To do that we need to obtain the demographic data (DEMO_J) and the blood pressure data (BXP_J) and merge them.
@@ -201,7 +195,7 @@ These tools, though demanding an initial learning curve, are intuitive and effic
 The `nhanesA` package is available to the public on: https://github.com/cjendres1/nhanes. The current CRAN version is also available at https://github.com/cran/nhanesA.
 
 ## Confict of interest.
-RG consults broadly in the pharmaceutical and Biotech industries.
+RG consults broadly in the pharmaceutical and Biotech industries. He owns shares or options in a number of publicly traded and private companies.
 
 
 ## Appendix
