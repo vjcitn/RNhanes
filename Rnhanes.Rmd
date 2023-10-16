@@ -42,6 +42,7 @@ The publicly available continuous NHANES data consists of over 1000 different ta
 When working with NHANES data there are a small number of computational tasks that need to be addressed. FIXME:Laha - fill in your stuff here - maybe some details under each of the list items - or we could make each of these a sub heading and then have a description and some example code? That might be better.
 
 - search for the variables and data files that you will use to perform the analysis
+
 While the CDC website offers search capabilities, having dedicated R-based functions offers more direct manipulation of research results. In `nhanesA`, we have introduced functions like `nhanesSearch()`, `nhanesSearchTableNames()`, and `nhanesSearchVarName()` to streamline these operations.
 
 - download the data onto your local computer
