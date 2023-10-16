@@ -2,16 +2,14 @@
 title: 'nhanesA: Achieving Transparency and Reproducibility in NHANES Research'
 author: ''
 bibliography: references.bib
-header-includes:
-   - "\\usepackage{multicol}"
 output:
-  pdf_document:
-    # - "-V"
-    # - classoption=twocolumn
-    # pandoc_args:
+  pdf_document: null
   bookdown::pdf_book:
     citation_package: biblatex
   word_document: default
+  html_document:
+    df_print: paged
+header-includes: \usepackage{multicol}
 link-citations: yes
 csl: vancouver.csl
 ---
@@ -23,16 +21,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Abstract
 
-The National Health and Nutrition Examination Survey (NHANES) covers a very broad array of topics including demography, sociology, health, and nutrition. Since 1999 the survey has been carried out in two year cycles and the bulk of the data collected are publicly available to any researcher. This has made them invaluable in very many areas of research such as social determinants of health and examining trends in obesity and other health outcomes. Assembling the data and analyzing it present a number of technical and analytic challenges. In this paper we describe the `nhanesA` package which is designed to aid researchers in obtaining and analyzing the data as well as enabling the sharing and extending of previous efforts. We believe that community efforts to enhance reproducibility and sharing of analytic methods will greatly benefit the scientific community.
+The National Health and Nutrition Examination Survey (NHANES) covers a broad array of topics including demography, sociology, health, and nutrition. Since 1999 the survey has been carried out in two year cycles and the bulk of the data collected are publicly available to any researcher. This has made them invaluable in very many areas of research such as social determinants of health and examining trends in obesity and other health outcomes. Assembling the data and analyzing it present a number of technical and analytic challenges. In this paper we describe the `nhanesA` package which is designed to aid researchers in obtaining and analyzing the data as well as enabling the sharing and extending of previous efforts. We believe that community efforts to enhance reproducibility and sharing of analytic methods will greatly benefit the scientific community.
 
 
-::: {custom-style="two-column"}
 
 ## Introduction
 
 NHANES <https://www.cdc.gov/nchs/nhanes/> is a pivotal program of studies aimed at evaluating the health and nutritional well-being of both adults and children residing in the United States. Its distinctive feature lies in its comprehensive approach, which combines detailed interviews and thorough physical examinations. NHANES is administered by the National Center for Health Statistics (NCHS), an integral part of the Centers for Disease Control and Prevention (CDC), which holds the responsibility for generating crucial health and vital statistics for the entire nation.
  
-Since 1999, the NHANES survey has been conducted continuously, and the surveys during that period are referred to as "continuous NHANES" to distinguish from several prior surveys. Continuous NHANES surveys are grouped in two-year *cycles*, with the first cycle carried out in 1999-2000.  For the most part the data are public and are very widely used for a variety of different analysis.  In fact, searching PubMed for the published papers that cite NHANES shows that currently more than 5,000 papers per year make some use of this resource. The bulk of the NHANES data are available for download from the CDC website where detailed instructions on using the data, how to download it and analyze it are given.
+Since 1999, the NHANES survey has been conducted continuously, and the surveys during that period are referred to as "continuous NHANES" to distinguish from several prior surveys. Continuous NHANES surveys are grouped in two-year *cycles*, with the first cycle carried out in 1999-2000.  For the most part the data are public and are widely used for a variety of different analysis.  In fact, searching PubMed for the published papers that cite NHANES shows that currently more than 5,000 papers per year make some use of this resource. The bulk of the NHANES data are available for download from the CDC website where detailed instructions on using the data, how to download it and analyze it are given.
 
 The sampling strategy used by NHANES provides researchers with access to a number of citizens that are often missing or under-represented in other epidemiology studies. These include a range of ethnicities, diverse ages ranging from babies to the elderly, and oversampling some of the rarer populations. NHANES has been useful as a way to study both prevalence and changes over time in obesity, social determinants of health and other important public health issues.  While each cycle is cross-sectional one can examine the time ordering of cycles to get a sense of how different characteristics of the population change with time. This sampling design introduces complexity into the analysis and researchers must be careful to use appropriate survey methodology.  To support this the `nhanesA` package includes a vignette describing the appropriate use of these methods and points the reader to a large variety of on-line resources.
  
@@ -45,11 +42,22 @@ The publicly available continuous NHANES data consists of over 1000 different ta
 When working with NHANES data there are a small number of computational tasks that need to be addressed. FIXME:Laha - fill in your stuff here - maybe some details under each of the list items - or we could make each of these a sub heading and then have a description and some example code? That might be better.
 
 - search for the variables and data files that you will use to perform the analysis
+While the CDC website offers search capabilities, having dedicated R-based functions offers more direct manipulation of research results. In `nhanesA`, we have introduced functions like `nhanesSearch()`, `nhanesSearchTableNames()`, and `nhanesSearchVarName()` to streamline these operations.
+
 - download the data onto your local computer
-- align tables within a cycle
-- align tables across cycles
+
+We also offer functions to download NHANES data using R and load it into dataframes for subsequent analysis.
+
+- align tables within a cycle or across cycles
+After downloading the data, we synchronize tables from different surveys (e.g., demography and dietary) within a cycle. Additionally, we can align tables across years, such as concatenating the demography survey data from 2009-2010, 2011-2012, and 2013-2014.
+
 - translate tables - to avoid integer codes
+
+Categorical variables, both ordered and unordered, are encoded as integers. In many scenarios, using integers is not intuitive. Thus, we provide functions to convert these integers to their actual values, enabling researchers to work with more meaningful data
+
 - use the survey weights to obtain valid estimates
+
+When using NHANES data, samples are weighted to ensure they represent the U.S. civilian noninstitutionalized resident population. Each sample person is assigned a sample weight, reflecting the number of people in the broader population that the individual represents. To obtain valid estimates from the data, it's essential to apply these survey weights during analysis. By doing so, researchers account for the complex survey design and potential biases, ensuring the results are reflective of the entire population and not just the sampled individuals. Utilizing software or statistical packages (eg survey) that support survey-weighted analysis, one can produce unbiased national estimates and accurate standard errors.
 
 
 ## Survey Design
@@ -109,7 +117,7 @@ In order to make appropriate estimates of we will need to create a survey design
 
 
 ```{r survery}
-library("survey")
+library(survey)
 nhanesDesign <- svydesign(id = ~SDMVPSU,  # Primary Sampling Units (PSU)
                           strata  = ~SDMVSTRA, # Stratification used in the survey
                           weights = ~WTMEC2YR,   # Survey weights
@@ -208,7 +216,7 @@ An important development was the concept of *Markdown* @Gruber, which is a strai
 
 \cite{Xie2018,Allaire2023}  documents which are documents that integrate software (code) and text. These can be thought of as explicit descriptions of how the figures and the tables in the published paper were created. Rmarkdown documents are processed by different *engines* that transform them into specific outputs such as a PDF format for publication or a HTML output for putting on the web. 
 
-A second important tool to help with reproducibility is the use of version control systems. These were originally developed for software development but they work equally well for writing papers.  A very widely used tool for version control is GitHub (https://github.com/).  One example of using this approach based on R @R-base is the Epidemiologist R Handbook (https://epirhandbook.com/en/) which is written in Bookdown @Xie2020 and is maintained in GitHub (at https://github.com/appliedepi/epiRhandbook_eng). The authors have created an entire textbook using markdown and they use GitHub to handle version issues as well as bug reporting and fixing. This approach has been used widely in the R community for over 20 years with substantial success. It should come as no surprise to the reader that this paper is also written in markdown and uses GitHub as its source code repository (https://github.com/ainilaha/RNhanes).
+A second important tool to help with reproducibility is the use of version control systems. These were originally developed for software development but they work equally well for writing papers. A widely used tool for version control is GitHub (https://github.com/).  One example of using this approach based on R @R-base is the Epidemiologist R Handbook (https://epirhandbook.com/en/) which is written in Bookdown @Xie2020 and is maintained in GitHub (at https://github.com/appliedepi/epiRhandbook_eng). The authors have created an entire textbook using markdown and they use GitHub to handle version issues as well as bug reporting and fixing. This approach has been used widely in the R community for over 20 years with substantial success. It should come as no surprise to the reader that this paper is also written in markdown and uses GitHub as its source code repository (https://github.com/ainilaha/RNhanes).
 
 \begin{figure}
   \includegraphics{images/process.jpg}
