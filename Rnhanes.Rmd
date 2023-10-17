@@ -31,7 +31,7 @@ NHANES <https://www.cdc.gov/nchs/nhanes/> is a pivotal program of studies aimed 
  
 Since 1999, the NHANES survey has been conducted continuously, and the surveys during that period are referred to as "continuous NHANES" to distinguish from several prior surveys. Continuous NHANES surveys are grouped in two-year *cycles*, with the first cycle carried out in 1999-2000.  For the most part the data are public and are widely used for a variety of different analysis.  In fact, searching PubMed for the published papers that cite NHANES shows that currently more than 5,000 papers per year make some use of this resource. The bulk of the NHANES data are available for download from the CDC website where detailed instructions on using the data, how to download it and analyze it are given.
 
-The sampling strategy used by NHANES provides researchers with access to a number of citizens that are often missing or under-represented in other epidemiology studies. These include a range of ethnicities, diverse ages ranging from babies to the elderly, and oversampling some of the rarer populations. NHANES has been useful as a way to study both prevalence and changes over time in obesity, social determinants of health and other important public health issues.  While each cycle is cross-sectional one can examine the time ordering of cycles to get a sense of how different characteristics of the population change with time. This sampling design introduces complexity into the analysis and researchers must be careful to use appropriate survey methodology. To support this the `nhanesA` package includes vignette pages describing the appropriate use of these methods and points the reader to a large variety of on-line resources.
+The sampling strategy used by NHANES provides researchers with access to a number of citizens that are often missing or under-represented in other epidemiology studies. These include a range of ethnicities, diverse ages ranging from babies to the elderly, and oversampling some of the rarer populations. NHANES has been useful as a way to study both prevalence and changes over time in obesity, social determinants of health and other important public health issues.  While each cycle is cross-sectional one can examine the time ordering of cycles to get a sense of how different characteristics of the population change with time. This sampling design introduces complexity into the analysis and researchers must be careful to use appropriate survey methodology.  To support this the `nhanesA` package includes a vignette describing the appropriate use of these methods and points the reader to a large variety of on-line resources.
  
 However, we have found that replication of published papers remains a demanding endeavor. In our experience even when authors have the best of intentions it is very difficult to replicate the tables and graphs in their papers. This is due to a variety of challenges that largely relate to a lack of specificity in reporting the extent and manner of data cleaning, the details of inclusion criteria or specific phenotypic definitions. Additionally it is difficult to accurately report on the extent to which the data were transformed or filtered during the analysis. While accurate textual description of these processes is hard they can be succinctly and accurately described in software and we propose methods to make it easier to ensure that the software descriptions of the analysis are syncronized with the outputs and easily shared with interested readers.
 
@@ -45,24 +45,21 @@ The available data can be downloaded using https requests from the CDC website. 
 
 During the 2019-2020 cycle data collection was disrupted by the pandemic. Therefore, the partial 2019-2020 data (herein 2019-March 2020 data) were combined with the full data set from the previous cycle (2017-2018) to create nationally representative 2017-March 2020 pre-pandemic data files.  These data files have the same basic file name, e.g. `DEMO`, but they are named by prepending a `P_` to that, giving `P_DEMO`. These files require special handling and the CDC has provided substantial guidance as well as updating the survey weights etc. Going forward the CDC plans to revamp the entire survey in the 2023-2024 cycle as documented in @Ram2021.
 
+We next describe a number of the computational and analytic tasks that need to be addressed and show how functionality in `nhanesA` helps address them.
 
-When working with NHANES data there are a small number of computational tasks that need to be addressed. FIXME:Laha - fill in your stuff here - maybe some details under each of the list items - or we could make each of these a sub heading and then have a description and some example code? That might be better.
-
-### 1) Search for the variables and data files that you will use to perform the analysis
+### Search for the variables and data files that you will use to perform the analysis
 
 While the CDC website offers search capabilities, having dedicated R-based functions offers more direct manipulation of research results. In `nhanesA`, we have introduced functions like `nhanesSearch`, `nhanesSearchTableNames`, and `nhanesSearchVarName` to streamline these operations.
 
-### 2) Download the data onto your local computer
+### Download the data onto your local computer
 
 Data is download into data frames for subsequent analysis. The function `nhanes` takes the name of the table that is wanted and downloads it. Users can specify whether the data should be translated by setting the argument `translated` to `TRUE`.  In general we recommend that one always translate the data.
 
-### 3) Align tables within a cycle or across cycles
+### Align tables within a cycle or across cycles
 
 After downloading the data, tables tables from different surveys (e.g., demography and dietary) can be synchronized within a cycle using the `merge` function from R using the `SEQN` variable as the match. Additionally, one can align tables across years, such as concatenating the demography survey data from 2009-2010, 2011-2012, and 2013-2014. When aligning across cycles users should be careful to check that they have selected variables that are present in all cycles and where the meanings are the same.  For example, the `RIDAGEYR` variable is present in the cycles mentioned and so could be included when joining across cycles.
 
-Maybe some example code?
-
-### 4) Translate tables
+### Translate tables
 
 Categorical variables, both ordered and unordered, are encoded in the raw data as integers. In many scenarios, using integers is not intuitive and can lead to rather uninterpretable models. In Figure \ref{fig:DEMO_J} we show the translated and untranslated variables 
 `RIAGENDR` and `RIDRETH1` from `DEMO_C`. Now, if one was to use the untranslated variable in a regression model, for example, then the variable would be treated as an integer variable, but it represents a categorical variable, and needs to be encoded appropriately.
@@ -74,7 +71,7 @@ Categorical variables, both ordered and unordered, are encoded in the raw data a
 \end{figure*}
 
 
-### 5) Use the survey weights to obtain valid estimates
+### Use the survey weights to obtain valid estimates
 
 NHANES uses a complex, four-stage sample design and appropriate analyses typically involve using specialized survey analysis procedures that use special weights that account for the sampling scheme that was used to collect the data. Each sample person is assigned a sample weight, reflecting the number of people in the broader population that the individual represents. To obtain valid estimates from the data, it's essential to apply these survey weights during analysis. By doing so, researchers account for the complex survey design and some potential biases, ensuring the results are reflective of the entire population and not just the sampled individuals. There is extensive documentation provided on the CDC website describing the proper use of these weights (https://wwwn.cdc.gov/nchs/nhanes/tutorials/default.aspx). 
 We recommend using the 'survey' @JSSv009i08 package to perform these analyses. We provide a simple example later in this paper and more extensive examples in the vignettes for the `nhanesA` and `phonto` @phonto2023 packages.
