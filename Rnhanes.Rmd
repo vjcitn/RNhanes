@@ -132,8 +132,8 @@ mean(datasub$BPXDI1, na.rm=TRUE)
 sp1 = split(datasub$BPXDI1, datasub$RIDRETH1)
 mns = sapply(sp1, mean, na.rm=TRUE)
 
-mns = data.frame(Ethnicity = names(mns), DBP=mns)
-kable(mns)
+mns = data.frame(Ethnicity = names(mns), "Raw DBP"=mns)
+kable(mns, row.names=FALSE)
 ```
 
 Now, we perform the same analysis using the survey weigths. First we get the adjusted over all mean for the population
