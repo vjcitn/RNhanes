@@ -23,6 +23,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The National Health and Nutrition Examination Survey (NHANES) covers a broad array of topics including demography, sociology, health, and nutrition. Since 1999 the survey has been carried out in two year cycles and the bulk of the data collected are publicly available to any researcher. This has made them invaluable in very many areas of research such as social determinants of health and examining trends in obesity and other health outcomes. Assembling the data and analyzing it present a number of technical and analytic challenges. In this paper we describe the `nhanesA` package which is designed to aid researchers in obtaining and analyzing the data as well as enabling the sharing and extending of previous efforts. We believe that community efforts to enhance reproducibility and sharing of analytic methods will greatly benefit the scientific community.
 
+Datbase URL: <https://github.com/cjendres1/nhanes>
+
 ## Introduction
 
 NHANES <https://www.cdc.gov/nchs/nhanes/> is a pivotal program of studies aimed at evaluating the health and nutritional well-being of both adults and children residing in the United States. Its distinctive feature lies in its comprehensive approach, which combines detailed interviews and thorough physical examinations. NHANES is administered by the National Center for Health Statistics (NCHS), an integral part of the Centers for Disease Control and Prevention (CDC), which holds the responsibility for generating crucial health and vital statistics for the entire nation.
