@@ -1,6 +1,6 @@
 ---
 title: 'nhanesA: Achieving Transparency and Reproducibility in NHANES Research'
-author: ''
+author: 'Laha Ale, Robert Gentleman, Teresa Filshtein-Sonmez, Christopher Endres'
 bibliography: references.bib
 output:
   pdf_document: null
@@ -51,7 +51,7 @@ While the CDC website offers search capabilities, having dedicated R-based funct
 
 ### Download the data onto your local computer
 
-Data is download into data frames for subsequent analysis. The function `nhanes` takes the name of the table that is wanted and downloads it. Users can specify whether the data should be translated by setting the argument `translated` to `TRUE`.  In general we recommend that one always translate the data.
+Data is download into data frames for subsequent analysis. The function `nhanes` takes the name of the table that is wanted and downloads it. Users can specify whether the data should be translated by setting the argument `translated` to `TRUE`.  In general we recommend that one always translate the data, and the `translated` set to `TRUE` by default.
 
 ### Align tables within a cycle or across cycles
 
@@ -60,11 +60,11 @@ After downloading the data, tables tables from different surveys (e.g., demograp
 ### Translate tables
 
 Categorical variables, both ordered and unordered, are encoded in the raw data as integers. In many scenarios, using integers is not intuitive and can lead to rather uninterpretable models. In Figure \ref{fig:DEMO_J} we show the translated and untranslated variables 
-`RIAGENDR` and `RIDRETH1` from `DEMO_C`. Now, if one was to use the untranslated variable in a regression model, for example, then the variable would be treated as an integer variable, but it represents a categorical variable, and needs to be encoded appropriately.
+`RIAGENDR` and `RIDRETH1` from `DEMO_J`. Now, if one was to use the untranslated variable in a regression model, for example, then the variable would be treated as an integer variable, but it represents a categorical variable, and needs to be encoded appropriately.
 
 \begin{figure*}
   \includegraphics{images/translated.jpg}
-  \caption{a) shows the raw data the both gender and enthnicity are encoded as integers. b) shows the translated data with nhanesA.}
+  \caption{a) shows the raw data the both gender and ethnicity are encoded as integers. b) shows the translated data with `nhanesA`.}
   \label{fig:DEMO_J}
 \end{figure*}
 
@@ -168,7 +168,7 @@ The survey questions are delivered sequentially and there is some amount of stru
 \end{figure*}
 
 
-In the NHANES dataset, data coarsening is frequently observed. For instance, the age variable ('RIDAGEYR' in 'DEMO_B') uses a representation where the value 80 denotes individuals aged 80 and above. Similarly, the ratio of family income to poverty ('INDFMPIR') uses the value 5 to indicate a ratio greater than or equal to 5.00. These practices compromise the precision of numerical values in the dataset. Additionally, some variables, although expressed numerically, are better interpreted as categorical data. Take the Body Mass Index ($11.5 \sim 67.3 kg/m^2$, represented as 'BMXBMI' in 'BMX_I') for example. While it is expressed as a continuous number, categorizing it into predefined ranges such as underweight (<18.5), healthy weight (18.5 to <25), overweight (25.0 to <30), and obesity (30.0 or higher) might yield more meaningful analyses.
+In the NHANES dataset, data coarsening is frequently observed. For instance, the age variable (RIDAGEYR in DEMO_J) uses a representation where the value 80 denotes individuals aged 80 and above. Similarly, the ratio of family income to poverty (INDFMPIR) uses the value 5 to indicate a ratio greater than or equal to 5.00. These practices compromise the precision of numerical values in the dataset. Additionally, some variables, although expressed numerically, are better interpreted as categorical data. Take the Body Mass Index ($11.5 \sim 67.3 kg/m^2$, represented as BMXBMI in BMX_J) for example. While it is expressed as a continuous number, categorizing it into predefined ranges such as underweight (<18.5), healthy weight (18.5 to <25), overweight (25.0 to <30), and obesity (30.0 or higher) might yield more meaningful analyses.
 
 ## Other Approaches
 
@@ -204,6 +204,9 @@ The `nhanesA` package is available to the public on: https://github.com/cjendres
 ## Confict of interest.
 RG consults broadly in the pharmaceutical and Biotech industries. He owns shares or options in a number of publicly traded and private companies.
 
+## Acknowledgements
+
+We thank Vincent Carey from Harvard Medical School for his review and insights on our paper. Additionally, we thank our colleagues from the Center for Computational Biomedicine: Nathan Palmer, Rafael Goncalves, Jason Payne, and Samantha Pullman, for their efforts in building the Docker database and testing the `nhanesA`.
 
 ## Appendix
 
