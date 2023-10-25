@@ -29,7 +29,7 @@ Database URL: <https://github.com/cjendres1/nhanes>
 
 NHANES <https://www.cdc.gov/nchs/nhanes/> is a pivotal program dedicated to assessing the health and nutritional status of both adults and children in the United States. Its unique value stems from its comprehensive approach that merges detailed interviews and thorough physical examinations. NHANES is administered by the National Center for Health Statistics (NCHS), an integral part of the Centers for Disease Control and Prevention (CDC), tasked with generating crucial health and vital statistics for the entire nation.
  
-Since 1999, NHANES has transitioned to a continuous survey format has been conducted continuously, distinctively termed "continuous NHANES" to differentiate it from its preceding versions. Continuous NHANES surveys are grouped in two-year *cycles*, with the inaugural cycle rolled out in 1999-2000.  Predominantly, the data is made public, serving a wide range of research analyses. In fact, a PubMed search reveals that NHANES is referenced in over 5,000 papers annually, highlighting its significance in the research community. The vast majority of the NHANES data are available for download from the CDC website, which also offers comprehensive guidance on data utilization, downloading procedures, and analytical methodologies.
+Since 1999, NHANES has transitioned to a continuous survey format, distinctively termed "continuous NHANES" to differentiate it from its preceding versions. Continuous NHANES surveys are grouped in two-year *cycles*, with the inaugural cycle rolled out in 1999-2000.  Predominantly, the data is made public, serving a wide range of research analyses. In fact, a PubMed search reveals that NHANES is referenced in over 5,000 papers annually, highlighting its significance in the research community. The vast majority of the NHANES data are available for download from the CDC website, which also offers comprehensive guidance on data utilization, downloading procedures, and analytical methodologies.
 
 NHANES employs a distinct sampling strategy that captures data from demographic groups often missing or underrepresented in many epidemiology studies. These include a broad range of ethnicities, spans age groups from infants to the elderly, and intentionally oversamples some of the less prevalent populations. NHANES serves as a useful tool for studying both prevalence of, and temporal shifts in, critical public health issues such as obesity and social determinants of health. While each cycle is cross-sectional, one can examine the sequential order of cycles to get a sense of evolving population characteristics over time. This sampling design, however, adds a layer of complexity into the analysis and researchers must be careful to use appropriate survey methodologies. To facilitate this the `nhanesA` package includes a detailed vignette describing the appropriate use of these methods and directs readers to an extensive array of online resources.
  
@@ -205,6 +205,7 @@ The `nhanesA` package is available to the public on: https://github.com/cjendres
 
 ## Confict of interest.
 RG consults broadly in the pharmaceutical and Biotech industries. He owns shares or options in a number of publicly traded and private companies.
+TFS owns shares in a publicly traded company.
 
 ## Acknowledgements
 
