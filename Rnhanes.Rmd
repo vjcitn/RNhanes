@@ -21,25 +21,41 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Abstract
 
-The National Health and Nutrition Examination Survey (NHANES) covers a broad array of topics including demography, sociology, health, and nutrition. Since 1999 the survey has been carried out in two year cycles.  Data collected are publicly available. This has made NHANES invaluable in areas of research such as social determinants of health, trends in obesity, and many behaviors and health outcomes. Assembling the data and analyzing it present a number of technical and analytic challenges. In this paper we describe the `nhanesA` package which is designed to aid researchers in obtaining and analyzing the data as well as enabling the sharing and extending of published analyses.  With our open approach to systematically enhancing the NHANES data we hope to catalyze community efforts to achieve reproducibility and accessibility of analytic methods in public health research.
+The National Health and Nutrition Examination Survey (NHANES) covers a broad array of
+topics including demography, sociology, health, and nutrition. Since 1999 the
+survey has been carried out in two year cycles.  Data collected are publicly
+available. This has made NHANES invaluable in areas of research such as social
+determinants of health, trends in obesity, and many behaviors and health outcomes.
+Assembling the data and analyzing it present a number of technical and analytic challenges.
+In this paper we describe the `nhanesA` package which is designed to aid researchers in
+obtaining and analyzing the data as well as enabling the sharing and extending of
+published analyses.  With our open approach to systematically enhancing the NHANES
+data we hope to catalyze community efforts to achieve reproducibility and
+accessibility of analytic methods in public health research.
 
 Database URL: <https://github.com/cjendres1/nhanes>
 
 ## Introduction
 
-NHANES <https://www.cdc.gov/nchs/nhanes/> is a pivotal program of studies aimed at evaluating the health and nutritional well-being of both adults and children residing in the United States. Its distinctive feature lies in its comprehensive approach, which combines detailed interviews and thorough physical examinations. NHANES is administered by the National Center for Health Statistics (NCHS), an integral part of the Centers for Disease Control and Prevention (CDC), which holds the responsibility for generating crucial health and vital statistics for the entire nation.
+NHANES <https://www.cdc.gov/nchs/nhanes/> is a pivotal program of studies aimed at evaluating the health and nutritional well-being of both adults and children residing in the United States. NHANES combines detailed interviews and thorough physical examinations,
+producing hundreds of variable collected over each of twelve cycles from 1999 to 2022. NHANES is administered by the National Center for Health Statistics (NCHS), an integral part of the Centers for Disease Control and Prevention (CDC), which holds the responsibility for generating crucial health and vital statistics for the entire nation.
  
-Since 1999, the NHANES survey has been conducted continuously, and the surveys during that period are referred to as "continuous NHANES" to distinguish from several prior surveys. Continuous NHANES surveys are grouped in two-year *cycles*, with the first cycle carried out in 1999-2000.  For the most part the data are public and are widely used for a variety of different analysis.  In fact, searching PubMed for the published papers that cite NHANES shows that currently more than 5,000 papers per year make some use of this resource. The bulk of the NHANES data are available for download from the CDC website where detailed instructions on using the data, how to download it and analyze it are given.
+Since 1999, the NHANES survey has been conducted continuously, and the surveys during that period are referred to as "continuous NHANES" to distinguish from several prior surveys. Continuous NHANES surveys are grouped in two-year *cycles*, with the first cycle carried out in 1999-2000.  With some exceptions, all the data are public and are widely used for a variety of different analysis.  Records in PubMed indicate that more than 5,000 papers per year make some use of this resource.  The CDC website provides instructions on downloading and analyzing the data.
 
-The sampling strategy used by NHANES provides researchers with data from citizens that are often missing or under-represented in other epidemiology studies. These include a range of ethnicities, diverse ages ranging from babies to the elderly, and oversampling some of the rarer populations. NHANES has been useful as a way to study both prevalence and changes over time in obesity, social determinants of health and other important public health issues.  While each cycle is cross-sectional one can examine the time ordering of cycles to get a sense of how different characteristics of the population change with time. This sampling design introduces complexity into the analysis and researchers must be careful to use appropriate survey methodology.  To support this the `nhanesA` package includes a vignette describing the appropriate use of these methods and points the reader to a large variety of on-line resources.
+The stated objective of NHANES is to produce "national estimates that are
+representative of the total noninstitutionalized civilian
+U.S. population." [https://www.cdc.gov/nchs/data/series/sr_02/sr02-190.pdf]
+The sampling strategy used by NHANES provides researchers with data from citizens that are often missing or under-represented in other epidemiology studies. These include a range of ethnicities, diverse ages ranging from babies to the elderly, oversampling some of the rarer populations. NHANES has been useful as a way to study both prevalence and changes over time in obesity, social determinants of health and other important public health issues.  While each cycle is cross-sectional one can examine the time ordering of cycles to get a sense of how different characteristics of the population change with time. This sampling design introduces complexity into the analysis and researchers must be careful to use appropriate survey methodology.  
+% the forward reference to package seems inappropriate here
+%To support this the `nhanesA` package includes a vignette describing the appropriate use of these methods and points the reader to a %large variety of on-line resources.
  
-However, we have found that replication of published papers remains a demanding endeavor. In our experience even when authors have the best of intentions it is very difficult to replicate the tables and graphs in their papers. This is due to a variety of challenges that largely relate to a lack of specificity in reporting the extent and manner of data cleaning, the details of inclusion criteria or specific phenotypic definitions. Additionally it is difficult to accurately report on the extent to which the data were transformed or filtered during the analysis. While accurate textual description of these processes is hard they can be succinctly and accurately described in software and we propose methods to make it easier to ensure that the software descriptions of the analysis are syncronized with the outputs and easily shared with interested readers.
+We have found that replication of results of papers based on NHANES data remains a demanding endeavor. In our experience even when authors have the best of intentions it is very difficult to replicate the tables and graphs in their papers. This is due to a variety of challenges that largely relate to a lack of specificity in reporting the extent and manner of data cleaning, the details of inclusion criteria or specific phenotypic definitions. Additionally it is difficult to accurately report on the extent to which the data were transformed or filtered during the analysis. While accurate textual description of these processes is hard they can be succinctly and accurately described in software and we propose methods to make it easier to ensure that the software descriptions of the analysis are synchronized with the outputs and easily shared with interested readers.
 
 ## Methods
 
 ### Data
 
-The publicly available continuous NHANES data consists of over 1000 different tables, or questionnaires. Each cycle surveys a distinct set of individuals using a cluster sample approach that is detailed here <https://wwwn.cdc.gov/nchs/nhanes/tutorials/SampleDesign.aspx>. Each NHANES cycle produces data tables in five publicly available categories: Demographics, Dietary, Examination, Laboratory and Questionnaire. There is also limited access data that is not publicly available and requires a formal request for access.
+The publicly available continuous NHANES data consists of over 1000 data tables. Each cycle surveys a distinct set of individuals using a cluster sample approach that is detailed here <https://wwwn.cdc.gov/nchs/nhanes/tutorials/SampleDesign.aspx>. Each NHANES cycle produces data in five categories: Demographics, Dietary, Examination, Laboratory and Questionnaire. There is also limited access data that is not publicly available and requires a formal request for access.
 
 The available data can be downloaded using https requests from the CDC website. For each table there are two components, the raw data which is provided in SAS (Statistical Analysis Software) 'XPT' (Transport File Format) format and a documentation file, in HTML, that describes the data variables and format. 
 
