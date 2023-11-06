@@ -1,6 +1,6 @@
 ---
 title: 'nhanesA: Achieving Transparency and Reproducibility in NHANES Research'
-author: 'Laha Ale, Robert Gentleman, Teresa Filshtein Sonmez, Christopher Endres'
+author: 'Laha Ale^[School of Computing and Artificial Intelligence, Southwest Jiaotong University, No. 999, Xian Road, Pidu District Chengdu, Sichuan 611756, China], Robert Gentleman^[Center for Computational Biomedicine, Harvard Medical School, 25 Shattuck St, Boston, MA 02115, USA], Teresa Filshtein Sonmez^[23andMe, Inc., 223 N Mathilda Ave, Sunnyvale, CA, 94086, USA], Christopher Endres^[TBD]'
 bibliography: references.bib
 output:
   pdf_document: null
@@ -28,8 +28,8 @@ Database URL: <https://github.com/cjendres1/nhanes>
 
 ## Introduction
 
-[National Health and Nutrition Examination Survey (NHANES)](https://www.cdc.gov/nchs/nhanes/) is a pivotal program dedicated to assessing the health and nutritional status of both adults and children in the United States. Its unique value stems from its comprehensive approach that merges detailed interviews and thorough physical examinations. NHANES is administered by the National Center for Health Statistics (NCHS), an integral part of the Centers for Disease Control and Prevention (CDC), tasked with generating crucial health and vital statistics for the entire nation.
-
+NHANES @cdc2023 is a pivotal program dedicated to assessing the health and nutritional status of both adults and children in the United States. Its value stems from its comprehensive approach that merges detailed interviews and thorough physical examinations. NHANES is administered by the National Center for Health Statistics (NCHS), an integral part of the Centers for Disease Control and Prevention (CDC), tasked with generating crucial health and vital statistics for the entire nation.
+ 
 Since 1999, NHANES has transitioned to a continuous survey format, distinctively termed "continuous NHANES" to differentiate it from its preceding versions. Continuous NHANES surveys are grouped in two-year *cycles*, with the inaugural cycle rolled out in 1999-2000. A PubMed @mih2023 search reveals that NHANES is referenced almost 5,000 times annually, highlighting its significance in the research community. The vast majority of the NHANES data are available for download from the CDC website, which also offers comprehensive guidance on data utilization, downloading procedures, and analytical methodologies.
 
 NHANES employs a distinct sampling strategy that captures data from demographic groups often missing or underrepresented in many epidemiology studies. These include a broad range of ethnicities, age groups that range from infants to the elderly, and they intentionally oversample less prevalent populations. NHANES serves as a useful tool for studying both prevalence of, and temporal shifts in, critical public health issues such as obesity and social determinants of health. While each cycle is cross-sectional, one can examine the sequential order of cycles to get a sense of evolving population characteristics over time. The sampling design adds a layer of complexity to the analysis and researchers must be careful to use appropriate survey methodologies. To facilitate the analysis of NHANES data the `nhanesA` package includes a detailed vignette describing the appropriate use of these methods and directs readers to an extensive array of online resources.
@@ -40,24 +40,11 @@ Replication of published papers remains a demanding endeavor. Even with well-int
 
 ### Data
 
+The publicly available continuous NHANES data consists of over 1500 different tables, or questionnaires. Each cycle surveys a distinct set of individuals using a cluster sample approach @cdcex2023. Each cycle produces data tables in five categories: Demographics, Dietary, Examination, Laboratory and Questionnaire. There is also limited access data that is not publicly available and requires a formal request for access.
 
-The publicly available continuous NHANES data consists of over 1,000 distinct tables. These tables encompass a variety of data, including results from detailed questionnaires. Each cycle surveys a unique group of individuals using a cluster sample methodology that is detailed here [NHANES Sample Design Tutorial](https://wwwn.cdc.gov/nchs/nhanes/tutorials/SampleDesign.aspx). The data from each NHANES cycle is categorized into five publicly accessible sections: Demographics, Dietary, Examination, Laboratory, and Questionnaire. Some data sets remain restricted, accessible only through a formal request. 
+The available data can be downloaded using `https` requests from the CDC website. For each table there are two components, the raw data which is provided in SAS (Statistical Analysis Software) `XPT` (Transport File Format) format and a documentation file, in HTML, that describes the data variables and format. Going forward the CDC plans to revamp the entire survey in the 2023-2024 cycle as documented in @Ram2021.
 
-
-Data from the CDC can be accessed through HTTPS requests on their website. Each dataset comprises two primary components:
-
-1. The raw data, presented in the SAS (Statistical Analysis Software) 'XPT' (Transport File Format).
-2. A complementary documentation file in HTML format detailing the data variables and their structure.
-
-
-During the 2019-2020 cycle data collection was disrupted by the pandemic. Therefore, the partial 2019-2020 data (herein 2019-March 2020 data) were combined with the full data set from the previous cycle (2017-2018) to create nationally representative 2017-March 2020 pre-pandemic data files.  These data files have the same basic file name, e.g. `DEMO`, but they are named by prepending a `P_` to that, giving `P_DEMO`. These files require special handling and the CDC has provided substantial guidance as well as updating the survey weights etc. Going forward the CDC plans to revamp the entire survey in the 2023-2024 cycle as documented in @Ram2021.
-
-
-We next describe a number of the computational and analytic challenges inherent to this process, highlighting how the `nhanesA` package offers effective and reproducible solutions. For a full list and description of `nhanesA` functions refer to <INCLUDE LINK>.
-
-
-
-We next describe a number of the computational and analytic challenges that need to be addressed, highlighting how the `nhanesA` package offers effective and reproducible solutions. For a full list and description of `nhanesA` functions refer to <FIXME: INCLUDE LINK>.
+We next describe a number of the computational and analytic challenges that need to be addressed, highlighting how the `nhanesA` package offers effective and reproducible solutions. 
 
 ### Search relevant variables and data files for analysis
 
@@ -65,16 +52,11 @@ While the CDC website provides search capabilities we believe that using dedicat
 
 ### Downloading data to your local machine
 
-
-The data is downloaded directly into data frames, readying it for subsequent analysis. The function `nhanes` takes the name of the table that is wanted and downloads it. Users can specify whether the data should be translated at this point, by setting the argument `translated` to `TRUE`.  However, we advise translating the data by default, so the translated argument is set to TRUE as standard.
-
-As an illustration, raw gender codes like 1 and 2 will be translated into 'Male' and 'Female' respectively. Categorical variables, both ordinal and nominal, are represented in the raw data as integers. In many scenarios, using integers is not intuitive, potentially leading to rather uninterpretable models. In Figure \ref{fig:DEMO_J} displays the difference between the translated and untranslated variables RIAGENDR and RIDRETH1 from DEMO_J. If one were to use the untranslated variable in a regression analysis, for example, it would be treated as an integer variable. However, it represents a categorical variable, and needs to be encoded accordingly.
-
+Using `nhanesA` the data can be downloaded directly into data frames, readying it for subsequent analysis. The function `nhanes` takes the name of the table that is wanted and downloads it. Categorical variables, both ordered and unordered, are encoded as integers. In Figure \ref{fig:DEMO_J} we show the translated and untranslated variables `RIAGENDR` and `RIDRETH1` from `DEMO_J`. Where, for example, the untranslated values for `RIAGENDR`  coded as `1` and `2` are translated to `Male` and `Female`.  If an untranslated categorical variable is used in a regression model then the variable would be treated as an integer variable and the corresponding estimates would, in general, not be appropriate. By default the `nhanes` function will translate the data and users can specify that they want the untranslated data by setting the argument `translated` to `FALSE`. 
 
 ### Align tables within a cycle or across cycles
 
-After downloading the data, tables from different surveys (e.g., demographic and dietary) can be synchronized within a cycle using the `merge` function from R with `SEQN` as the join key. Additionally, one can align tables across years, such as concatenating the demographic survey data from 2009-2010, 2011-2012, and 2013-2014. When aligning across cycles, users should be careful to check that selected variables are present in all cycles and have common definitions. For example, the `RIDAGEYR` variable is present in the cycles mentioned and thus could be included when joining across cycles. 
-
+After downloading the data tables within a cycle can be synchronized using the `merge` function from R with `SEQN` as the key. Additionally, one can align tables across cycles as long as the data were collected. For example the main demographic questionnaire is present in all cycles. The CDC uses some naming conventions, but these are not always applied consistently and it is important to be cautious when merging or combining data across cycles as the names of the variables are not guaranteed to be constant, and the actual questions may change over time. 
 
 \begin{figure}[h]
   \includegraphics[width=3.5in]{images/translated.jpg}
@@ -169,13 +151,13 @@ kable(both, row.names=FALSE, col.names=c("Ethnicity", "Adj DBP", "Raw DPB"))
 
 There remain some challenges to analyzing the NHANES data for which there are no easy ways to address the issues. We discuss a number of the issues here in order to alert analysts to their existence so they can remediate any impacts. 
 
-Within NHANES there is a substantial amount of missing data. In part this arises from non-response but it can also arise due to the fact that not all respondents participate in all of the assays, exams or questionnaires. In other settings missingness can be introduced by the process used to deliver the survey. We show an excerpt of the Blood Pressure and Cholesterol documentation for 2005-2006 in (FIXME:: use cite don't hardwire 2. Figure. 2). You can see that in question BPQ_020 that anyone who answered either *No* or *Don’t know* to the question skipped over question BPQ_030, as it makes little sense for them. Importantly the value stored in the database for those people for BPQ_030 was a missing value. Now, in some circumstances an analyst might prefer to assume that if the respondent had not been told that they had high blood pressure once, they also had not been told they had high blood pressure two or more times. They would then fill in those missing values as *No* so that they had more complete case information for their analysis. There are many instances in the NHANES data where questions are skipped as part of the survey delivery and it is important that the analyst try to detect those and make reasonable assumptions for the analysis. 
+Within NHANES there is a substantial amount of missing data. In part this arises from non-response but it can also arise due to the fact that not all respondents participate in all of the assays, exams or questionnaires. In other settings missingness can be introduced by the process used to deliver the survey. We show an excerpt of the Blood Pressure and Cholesterol documentation for 2005-2006 in Figure \ref{fig:BPQ_020}. You can see that in question BPQ_020 that anyone who answered either *No* or *Don’t know* to the question skipped over question BPQ_030, as it makes little sense for them. Importantly the value stored in the database for those people for BPQ_030 was a missing value. Now, in some circumstances an analyst might prefer to assume that if the respondent had not been told that they had high blood pressure once, they also had not been told they had high blood pressure two or more times. They would then fill in those missing values as *No* so that they had more complete case information for their analysis. There are many instances in the NHANES data where questions are skipped as part of the survey delivery and it is important that the analyst try to detect those and make reasonable assumptions for the analysis. 
 
 
 \begin{figure*}
   \centering
   \includegraphics[width=4.5in]{images/BPQ020D.png}
-  \caption{question BPQ\_020.}
+  \caption{Question BPQ\_020 from BPQ\_D.}
   \label{fig:BPQ_020}
 \end{figure*}
 
@@ -201,7 +183,6 @@ We did not find any Stata modules or packages but there are good resources avail
 
 ### Python
 
-FIXME: you need to do the citation of the URL stuff here
 We are aware of two actively maintained Python libraries for working with NHANES data: `nhanes-dl` @LeviButcher and `pynhanes` @Pyrkov2023. In Python, one can use Jupyter notebooks to achieve reproducible results. Jupyter notebooks, similar to Rmarkdown, allow for an organized presentation of text, code, and their respective outputs (including plots) within a single document. This facilitates reproducibility, enabling readers to easily replicate and understand the presented work. However, the `nhanes-dl` library is designed to download Continuous NHANES codebooks and convert them into ready-to-use pandas dataframes, although its documentation is somewhat lacking. The `pynhanes` package  offers several Jupyter notebooks on its GitHub repository @Pyrkov20231 to demonstrate its usage.
 
 ## Discussion and future work
