@@ -1,6 +1,6 @@
 ---
 title: 'nhanesA: Achieving Transparency and Reproducibility in NHANES Research'
-author: 'Laha Ale^[School of Computing and Artificial Intelligence, Southwest Jiaotong University, No. 999, Xian Road, Pidu District Chengdu, Sichuan 611756, China], Robert Gentleman^[Center for Computational Biomedicine, Harvard Medical School, 25 Shattuck St, Boston, MA 02115, USA], Teresa Filshtein Sonmez^[23andMe, Inc., 223 N Mathilda Ave, Sunnyvale, CA, 94086, USA], Christopher Endres^[TBD]'
+author: 'Laha Ale^[School of Computing and Artificial Intelligence, Southwest Jiaotong University, No. 999, Xian Road, Pidu District Chengdu, Sichuan 611756, China], Robert Gentleman^[Center for Computational Biomedicine, Harvard Medical School, 25 Shattuck St, Boston, MA 02115, USA], Teresa Filshtein Sonmez^[23andMe, Inc., 223 N Mathilda Ave, Sunnyvale, CA, 94086, USA], Christopher Endres^[The Promenade Dance Studio, Inc., 2605 Lord Baltimore Drive, Windsor Mill, MD, 21244, USA]'
 bibliography: references.bib
 output:
   pdf_document: null
